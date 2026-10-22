@@ -1,4 +1,7 @@
 -- Avatar Copier v25.0.1
+-- Copyright (C) 2026 lyraEz
+-- Licensed under the GNU General Public License, version 3 or (at your option) any later version.
+-- See LICENSE in the source repository.
 
 -- AutoReapply, MapPersist and CopyAnimation follow the Settings page once the hub loads.
 -- CopyAnimation is only the default for "Copy animations".
@@ -21,8 +24,8 @@ local Config = {
     DualWieldKey = Enum.KeyCode.R,
     ToolsGiverKey = Enum.KeyCode.L,
     HideUIKey = Enum.KeyCode.K,
-    -- Skin sync server, see docs/DATA-FORMATS.md. An empty string turns skin sync off.
-    SyncUrl = "https://api.lyraez.lol/v1/sync",
+    -- Skin sync server, see docs/features/skin-sync.md. Empty keeps skin sync off.
+    SyncUrl = "",
 }
 
 if type(_G.Copier_Cleanup) == "function" then pcall(_G.Copier_Cleanup) end
@@ -2972,7 +2975,7 @@ end
 
 
 -- Toast notifier. Self-contained (TweenService, TextService and its own instances); the options are
--- documented in docs/DEVELOPMENT.md.
+-- documented in docs/reference/development.md.
 local Toast = {}
 Toast.__index = Toast
 Toast.Tweens = game:GetService("TweenService")

@@ -327,7 +327,7 @@ task.spawn(function()
 
     -- Skin sync -------------------------------------------------------------------------------------------
     local Sync, Overlay = H.Sync, H.Overlay
-    check(Sync.Url == "https://api.lyraez.lol/v1/sync" and H.Config.SyncUrl == Sync.Url, "the sync server comes from Config.SyncUrl")
+    check(Sync.Url == "https://sync.test/v1/sync" and H.Config.SyncUrl == Sync.Url, "the sync server comes from Config.SyncUrl")
     local friend = Mock.newInstance("Player", true)
     friend.Name = "Friend"; friend.UserId = 777; friend.DisplayName = "Friend"
     local friendCharacter = Mock.buildRig(Mock.describe(Mock.Users[3]), Enum.HumanoidRigType.R15)
@@ -496,7 +496,7 @@ task.spawn(function()
     gameObjectsIntact(character, "saved skin")
 
     -- Restore. The initial snapshot recorded every accessory on the character, so a game accessory that
-    -- holds a script is kept and its recorded copy comes back too (documented in docs/TROUBLESHOOTING.md).
+    -- holds a script is kept and its recorded copy comes back too (documented in docs/troubleshooting.md).
     Mock.click(UI.NavButtons.Avatar.Root); settle(0.3)
     Mock.click(UI.Restore.Root); settle(4)
     local restored = copiedAccessories(character)
