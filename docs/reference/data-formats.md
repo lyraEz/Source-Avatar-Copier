@@ -1,10 +1,12 @@
-# Data formats
+[Docs](../README.md) / Reference / **Data formats**
+
+# <img src="../assets/icons/reference.png" width="40" alt=""> Data formats
 
 The formats the script reads and writes: the saved file, the description codec, visual snapshots, share codes, old JSON backups and the skin sync protocol. Everything is JSON produced by `HttpService:JSONEncode`.
 
 ## Saved file
 
-`Copier_SavedProfiles.json` in the executor workspace, format version 4:
+`Copier_SavedProfiles.json` in the executor workspace, format version 4, written by [`Store.save`](../../src/avatar-copier.lua#L1756-L1760) and read by [`Store.load`](../../src/avatar-copier.lua#L1690-L1750):
 
 ```json
 {
@@ -20,7 +22,7 @@ The formats the script reads and writes: the saved file, the description codec, 
 
 - `Favorites` (up to 200) and `Recent` (up to 30) hold Roblox profiles. Older files used `SavedUsers` for favorites; it is still read.
 - `Looks` (up to 100) are saved skins. `Data` is a description in the codec below, usually with a `Visual` snapshot. A skin whose data doesn't validate is dropped on load.
-- `Settings` holds the toggles listed in [FEATURES.md](FEATURES.md#settings) by key: `AutoReset`, `CopyAnims`, `AutoReapply`, `MapPersist`, `GlassBlur`, `MobileOrb`, `ReducedMotion`, `LowEffects`, `Keybind`, `SwapEffect`, `Notifications`, `StartHidden`, `MenuReopen`, `HideTipSeen`, `MenuAvatar`, `SkinSync`, `VisualOnly`, `UIScale` (0 for Auto, or 70 to 130), `ScaleMigrated`, `WindowW` and `WindowH` (0 for automatic, or 300 to 4000 and 240 to 4000 unscaled pixels).
+- `Settings` holds the toggles listed in [Settings](../tabs/settings.md) by key: `AutoReset`, `CopyAnims`, `AutoReapply`, `MapPersist`, `GlassBlur`, `MobileOrb`, `ReducedMotion`, `LowEffects`, `Keybind`, `SwapEffect`, `Notifications`, `StartHidden`, `MenuReopen`, `HideTipSeen`, `MenuAvatar`, `SkinSync`, `VisualOnly`, `UIScale` (0 for Auto, or 70 to 130), `ScaleMigrated`, `WindowW` and `WindowH` (0 for automatic, or 300 to 4000 and 240 to 4000 unscaled pixels).
 - `Auto` holds `LoadEnabled`, `LoadSource` (`Chosen`, `Last`, `Random`, `Cycle`), `LoadDelay` (0 to 30), `Chosen`, `Last`, `Games` (place id string to entry, up to 100), `CycleEnabled`, `Trigger` (`Death`, `Respawn`, `Timer`, `Both`), `EveryDeaths` (1 to 50), `TimerSeconds` (10 to 3600), `Order` (`Sequential`, `Shuffle`, `Random`, `PingPong`), `Cooldown` (0 to 300), `EndAction` (`Loop`, `Stop`, `Restore`), `Resume`, `Notify`, `Index` (0 to 50) and `List` (up to 50 entries).
 - An **entry** is `{"Kind": "User", "Id": 156, "Name": "Builderman", "DisplayName": "Builderman"}` or `{"Kind": "Look", "Key": "8F0C…", "Name": "My skin"}`. Entries never hold a description; profiles are fetched again and skins are read from `Looks` when used.
 - `Promo` paces the Discord invite.
@@ -29,7 +31,7 @@ Values of the wrong type are ignored and numbers are clamped to their ranges. A 
 
 ## Description codec
 
-`Codec.encode` turns a `HumanoidDescription` into this table (version 2) and `Codec.decode` builds one back:
+[`Codec.encode`](../../src/avatar-copier.lua#L1043-L1068) turns a `HumanoidDescription` into this table (version 2) and [`Codec.decode`](../../src/avatar-copier.lua#L1069-L1139) builds one back:
 
 ```json
 {
@@ -52,7 +54,7 @@ Decoding keeps only valid values: asset ids are whole numbers from 0 to 2⁵³�
 
 ## Visual snapshot
 
-`Data.Visual`, version 1, records the real parts of a character:
+`Data.Visual`, version 1, records the real parts of a character ([`Visual.capture`](../../src/avatar-copier.lua#L1353-L1392)):
 
 ```json
 {
@@ -80,7 +82,7 @@ Property values are encoded by type: a CFrame is its 12 components, a Vector3 `[
 
 ### Limits
 
-`Visual.validate` refuses a snapshot when any of these fail, whatever its source (your file, a share code or skin sync):
+[`Visual.validate`](../../src/avatar-copier.lua#L1317-L1352) refuses a snapshot when any of these fail, whatever its source (your file, a share code or skin sync):
 
 - version 1 and a rig of `R15` or `R6`; 1 to 20 body parts with standard names; up to 150 accessories, 32 joints and 100 animations;
 - part sizes 0.001 to 64 studs, colours 0 to 1, transparency 0 to 1;
@@ -91,11 +93,11 @@ Property values are encoded by type: a CFrame is its 12 components, a Vector3 `[
 
 ## Share codes
 
-A share code is `LYRA3:` followed by the JSON `{"Version": 2, "Name": "...", "Data": {...}}`, where `Data` is a description with its visual snapshot. Import also accepts the `LYRA2:` prefix, the JSON without a prefix and packets with `Version` 1, up to 2,000,000 characters. Imported data is re-encoded through the codec, so only valid fields are kept.
+A share code ([`Looks.share`](../../src/avatar-copier.lua#L2681-L2683)) is `LYRA3:` followed by the JSON `{"Version": 2, "Name": "...", "Data": {...}}`, where `Data` is a description with its visual snapshot. Import ([`Looks.import`](../../src/avatar-copier.lua#L2659-L2680)) also accepts the `LYRA2:` prefix, the JSON without a prefix and packets with `Version` 1, up to 2,000,000 characters. Imported data is re-encoded through the codec, so only valid fields are kept.
 
 ## Old JSON backups
 
-Earlier versions exported skins as JSON with Portuguese keys. Import recognises them by `MembrosCorpo` or `MembrosCustom`:
+Earlier versions exported skins as JSON with Portuguese keys. Import recognises them by `MembrosCorpo` or `MembrosCustom` and converts them with [`Visual.legacy`](../../src/avatar-copier.lua#L1393-L1419):
 
 | Key | Meaning |
 | --- | --- |
@@ -112,7 +114,10 @@ These files have no joint offsets, so offsets are scaled from the size change an
 
 ## Skin sync protocol
 
-The client posts JSON to `Config.SyncUrl` with `Content-Type: application/json`, through the executor's `request` function. It only runs while **See other script users' skins** is on, `Config.SyncUrl` is not empty, the server has a `JobId` and `request` exists. Every request carries `job` (the server's `JobId`) and `user` (your user id).
+> [!NOTE]
+> `Config.SyncUrl` is empty in this repository, so none of these requests are made until you set a server. See [Skin sync](../features/skin-sync.md).
+
+The client ([`Sync.call`](../../src/avatar-copier.lua#L6286-L6292)) posts JSON to `Config.SyncUrl` with `Content-Type: application/json`, through the executor's `request` function. It only runs while **See other script users' skins** is on, `Config.SyncUrl` is not empty, the server has a `JobId` and `request` exists. Every request carries `job` (the server's `JobId`) and `user` (your user id).
 
 **beat**, about every 8 s, and at most every 5 s right after your avatar changes:
 
@@ -120,7 +125,7 @@ The client posts JSON to `Config.SyncUrl` with `Content-Type: application/json`,
 {"a": "beat", "job": "6f0b2c4e-…", "user": 1, "hash": "1a2b3c4d000008f3", "data": "{\"Version\":2,\"Data\":{…}}"}
 ```
 
-- `hash` identifies the skin you wear and is `""` when you wear your own appearance. It is the 32-bit FNV-1a hash of `data` followed by its length, as two 8-digit hex numbers (`Sync.hash`).
+- `hash` identifies the skin you wear and is `""` when you wear your own appearance. It is the 32-bit FNV-1a hash of `data` followed by its length, as two 8-digit hex numbers ([`Sync.hash`](../../src/avatar-copier.lua#L6294-L6298)).
 - `data` is sent only when the hash changed since the last accepted beat. A skin longer than 250,000 characters is not shared at all: the beat carries `""` as if you wore your own appearance.
 - The reply is `{"ok": true, "need": false, "peers": [{"user": 777, "hash": "…"}]}`. `need: true` means the server doesn't have the data for that hash; the client sends the beat again with `data`. `peers` lists the other users in the same server who share a skin.
 
@@ -130,7 +135,7 @@ The client posts JSON to `Config.SyncUrl` with `Content-Type: application/json`,
 {"a": "get", "job": "6f0b2c4e-…", "user": 1, "peer": 777}
 ```
 
-The reply is `{"ok": true, "hash": "…", "data": "…"}`. The client uses it only when `hash` matches the one listed for that peer and `data` (at most 262,144 characters) passes the same checks as an imported share code. A failed fetch is retried after 8 s; a skin that can't be built waits 10 s longer after each failure, up to 60 s.
+The reply is `{"ok": true, "hash": "…", "data": "…"}`. The client uses it only when `hash` matches the one listed for that peer and `data` (at most 262,144 characters) passes the same checks as an imported share code ([`Sync.decode`](../../src/avatar-copier.lua#L6311-L6320)). A failed fetch is retried after 8 s; a skin that can't be built waits 10 s longer after each failure, up to 60 s.
 
 **leave**, when skin sync is turned off or the script is cleaned up:
 
@@ -141,3 +146,9 @@ The reply is `{"ok": true, "hash": "…", "data": "…"}`. The client uses it on
 Any reply that isn't JSON with `ok: true` is ignored, so a server can refuse a request by answering `{"ok": false}`.
 
 A compatible server keeps the latest `hash` and `data` per job and user, lists the other users of the same job in `peers`, forgets users who stop sending beats, and should validate and rate-limit what it receives, since any client can post.
+
+---
+
+| ← Previous | Up | Next → |
+| :--- | :---: | ---: |
+| [Compatibility](compatibility.md) | [All docs](../README.md) | [Configuration](configuration.md) |

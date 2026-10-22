@@ -1,6 +1,6 @@
 # Third-party notices
 
-Avatar Copier embeds one image built from third-party icons: the 64 px icon sprite sheet stored as base64 in `UI.IconData` in `src/avatar-copier.lua`. No other third-party code or assets are included. The Gotham and Builder Sans fonts are Roblox system fonts selected through `Enum.Font` and are not distributed here.
+Avatar Copier embeds one image built from third-party icons: the 64 px icon sprite sheet stored as base64 in `UI.IconData` in `src/avatar-copier.lua`. The documentation reuses some of the same icons, cut from that sheet: `docs/assets/icons/*.png` and the icons inside `docs/assets/window.svg`. No other third-party code or assets are included. The Gotham and Builder Sans fonts are Roblox system fonts selected through `Enum.Font` and are not distributed here.
 
 ## Lucide
 

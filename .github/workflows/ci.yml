@@ -23,7 +23,7 @@ jobs:
             --output /tmp/luau-ubuntu.zip
           echo "134dc762ad26232af83e43f98dec03ff6030dd3a4452f9408b9d50ccea025503  /tmp/luau-ubuntu.zip" | sha256sum --check --status
           mkdir -p /tmp/luau-bin
-          unzip -q /tmp/luau-ubuntu.zip luau luau-compile luau-analyze -d /tmp/luau-bin
+          unzip -q /tmp/luau-ubuntu.zip luau luau-compile luau-analyze luau-ast -d /tmp/luau-bin
       - name: Static checks
         run: tools/check.sh /tmp/luau-bin
       - name: Tests

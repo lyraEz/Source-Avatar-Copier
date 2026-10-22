@@ -1,40 +1,42 @@
-# Avatar Copier
+<p align="center">
+  <img src="docs/assets/logo.png" width="112" alt="Avatar Copier logo">
+</p>
 
-Avatar Copier (the window is called **Avatar Studio**) is a Roblox client script that puts another player's avatar on your character. You search a username or user ID, look at the avatar in a 3D preview and apply it. It can also save skins, edit the worn avatar with items from the Roblox catalog and rotate through a list of avatars while you play.
+<h1 align="center">Avatar Copier</h1>
 
-It has always been free: no key system, no link shorteners, no payment.
+<p align="center">
+  Put any Roblox player's avatar on your character, save skins, try catalog items and cycle through avatars while you play.
+  <br>
+  <a href="docs/getting-started.md"><b>Getting started</b></a> ·
+  <a href="docs/README.md"><b>Documentation</b></a> ·
+  <a href="docs/troubleshooting.md"><b>Troubleshooting</b></a>
+</p>
 
-The change happens on your client. Other players keep seeing your normal avatar, except for the animations Roblox replicates from your character and other Avatar Copier users with skin sync turned on. See [Limitations](#limitations).
+---
+
+Avatar Copier (the window is called **Avatar Studio**) is a Roblox client script. You search a username or user ID, look at the avatar in a 3D preview and apply it. It has always been free: no key system, no link shorteners, no payment.
+
+> [!NOTE]
+> The change happens on your client. Other players keep seeing your normal avatar, except for the animations Roblox replicates from your character. See [Limitations](#limitations).
 
 ## Features
 
-- **Copy Avatar**: search by username, `@username` or user ID, rotate and zoom the 3D preview, then apply.
-- **Timeline**: every appearance of the session as a thumbnail, Undo, and Restore to get your own avatar back.
-- **Server, Favorites and Recent**: wear or preview anyone in the server or in your lists with one tap.
-- **Saved Skins**: save what you are wearing (body, accessories, clothes, effects), share it as a `LYRA3:` code and import codes or old JSON backups.
-- **Roblox Shop**: search the catalog by name, item ID or link, filter and sort, open bundles part by part, and add or remove items on the avatar you are wearing.
-- **Auto & Cycle**: apply an avatar when the script starts (one per game if you want) and switch through a list on death, respawn or a timer.
-- **Persistence**: the avatar comes back after a respawn, and items a round-based game removes are put back.
-- **Visual-only mode**: draws the avatar over your character without changing it, for games where changing the character breaks movement.
-- **Skin sync**: script users in the same server see each other's skins.
-- **Hotkeys**: free camera, a mirrored tool in the left hand, copying tools into your backpack and hiding the game's interface.
+Each tab of the window has its own page in the docs, with step-by-step use and links into the code.
 
-Every feature is described in [docs/FEATURES.md](docs/FEATURES.md).
+| | Tab | What you can do |
+| :-: | --- | --- |
+| <img src="docs/assets/icons/copy-avatar.png" width="28" alt=""> | [Copy Avatar](docs/tabs/copy-avatar.md) | Search by username, `@username` or user ID, turn the 3D preview, apply. A timeline of every look, Undo and Restore. |
+| <img src="docs/assets/icons/server.png" width="28" alt=""> | [Server](docs/tabs/server.md) | Wear or preview anyone in your server with one tap. |
+| <img src="docs/assets/icons/favorites-recent.png" width="28" alt=""> | [Favorites & Recent](docs/tabs/favorites-recent.md) | Up to 200 starred profiles and your last 30 searches. |
+| <img src="docs/assets/icons/saved-skins.png" width="28" alt=""> | [Saved Skins](docs/tabs/saved-skins.md) | Save what you wear (body, accessories, clothes, effects), wear it in any game, share it as a `LYRA3:` code. |
+| <img src="docs/assets/icons/roblox-shop.png" width="28" alt=""> | [Roblox Shop](docs/tabs/roblox-shop.md) | Search the catalog, filter and sort, open bundles part by part, add or remove items on the avatar you wear. |
+| <img src="docs/assets/icons/auto-cycle.png" width="28" alt=""> | [Auto & Cycle](docs/tabs/auto-cycle.md) | An avatar when the script starts (one per game if you want), and a new one on death, respawn or a timer. |
+| <img src="docs/assets/icons/settings.png" width="28" alt=""> | [Settings](docs/tabs/settings.md) | Interface size, persistence, visual-only mode, effects and the ways to reopen the window. |
+| <img src="docs/assets/icons/creator.png" width="28" alt=""> | [Creator](docs/tabs/creator.md) | The author's Discord and GitHub. |
 
-## Requirements
+Also: the avatar comes back after a respawn, items a round-based game removes are put back, a [visual-only mode](docs/features/visual-only.md) for games that break when the character changes, and [hotkeys](docs/features/hotkeys-and-chat.md) for a free camera, a left-hand tool copy, ToolsGiver and hiding the game's interface.
 
-- A Roblox executor that can run a client-side Luau script. Third-party executors are against the Roblox Terms of Use; use them at your own risk.
-- Optional executor functions. Without them the script still runs and only the related feature is off:
-
-| Function | Used for |
-| --- | --- |
-| `readfile`, `writefile`, `isfile` | Saving favorites, skins and settings between sessions |
-| `getcustomasset` (or `getsynasset`) | The icon sheet, the logo and the creator photo; vector icons are drawn without it |
-| `setclipboard` (or `toclipboard`) | Copying share codes and links; the text is shown for manual copying without it |
-| `request` (or `http_request`, `syn.request`) | Skin sync and the creator photo |
-| `firetouchinterest` | ToolsGiver picking up tools lying in the workspace |
-
-## Usage
+## Quick start
 
 Run [`src/avatar-copier.lua`](src/avatar-copier.lua) in your executor. While this repository is public, you can also load it straight from GitHub:
 
@@ -42,33 +44,33 @@ Run [`src/avatar-copier.lua`](src/avatar-copier.lua) in your executor. While thi
 loadstring(game:HttpGet("https://raw.githubusercontent.com/lyraEz/Source-Avatar-Copier/main/src/avatar-copier.lua"))()
 ```
 
-Running it again closes the previous copy first, so a re-run never leaves two windows behind.
-
-1. Type a username or user ID in **Copy Avatar** and press Enter.
+1. Type a username or user ID in **Copy Avatar** and press <kbd>Enter</kbd>.
 2. Check the 3D preview, then tap **Apply avatar**.
-3. Use **Undo**, the timeline thumbnails or **Restore** to go back.
+3. Use **Undo**, the timeline pictures or **Restore** to go back.
+
+Running the script again closes the previous copy first. The full walkthrough, with the optional executor functions, is in [Getting started](docs/getting-started.md).
 
 | Input | Action |
 | --- | --- |
-| `RightControl` (changeable in Settings) | Show or hide the window |
+| <kbd>RightControl</kbd> (changeable in Settings) | Show or hide the window |
 | Floating button | Show the window while it is hidden |
 | Open and close the Roblox menu 3 times within 5 s | Show the hidden window (can be turned off) |
 | `/e copier`, `/e hub`, `/copier`, `/hub` in chat | Show the window |
 | `/e next`, `/e prev`, `/e cycle` in chat | Next or previous avatar in the cycle, turn the cycle on or off |
-| `V` | Free camera (arrow keys move, hold the right mouse button to look around) |
-| `R` | Mirror the held tool's handle to your left hand |
-| `L` | ToolsGiver on or off |
-| `K` | Hide or show the game's interface (the hub stays) |
+| <kbd>V</kbd> / <kbd>R</kbd> / <kbd>L</kbd> / <kbd>K</kbd> | Free camera / left-hand tool copy / ToolsGiver / hide the game's interface |
 
-The `Config` table at the top of the script holds the startup options and hotkeys. It is documented in [docs/FEATURES.md](docs/FEATURES.md#configuration).
+## Requirements
+
+- A Roblox executor that can run a client-side Luau script. Third-party executors are against the Roblox Terms of Use; use them at your own risk.
+- Optional executor functions (`readfile`/`writefile`, `getcustomasset`, `setclipboard`, `request`, `firetouchinterest`). Without them the script still runs and only the related feature is off. See [Getting started](docs/getting-started.md#what-you-need).
 
 ## Privacy and network
 
-The script does not collect analytics. Besides Roblox's own services (profiles, avatars, catalog, chat), it makes these requests:
+The script doesn't collect analytics. Besides Roblox's own services (profiles, avatars, catalog, chat), it can make these requests:
 
-- **Skin sync**, on by default: about every 8 seconds while you are in a live server it posts your user ID, the server's JobId and a hash of the skin you wear to the address in `Config.SyncUrl`, and the skin itself when it changes. The server learns that you are using the script in that server. Turn it off with **Settings > See other script users' skins**, or set `Config.SyncUrl = ""` to remove it completely. The protocol is in [docs/DATA-FORMATS.md](docs/DATA-FORMATS.md#skin-sync-protocol).
 - **Catalog fallback**: when the in-game catalog search is unavailable, the shop searches `catalog.roblox.com` instead.
 - **Creator photo**: the first time you open the Creator tab it downloads `github.com/lyraEz.png` and caches it.
+- **Skin sync**: off in this repository. `Config.SyncUrl` is empty, so nothing is sent. If you set a server address, the script shares the skin you wear with that server for your current Roblox server; see [Skin sync](docs/features/skin-sync.md) for exactly what is sent.
 
 Saved data stays on your device, in the executor's workspace folder: `Copier_SavedProfiles.json` and its `.bak` backup, plus the cached images `LyraAvatarStudio_icons_v14_7.png`, `LyraAvatarStudio_logo_v15.png` and `LyraAvatarStudio_github_lyraEz.png`.
 
@@ -78,30 +80,22 @@ Saved data stays on your device, in the executor's workspace folder: `Copier_Sav
 - Games that rebuild or replace the character, use custom rigs or remove accessories every round may only take part of an avatar. The script applies what fits and says what it skipped.
 - Saved skins record every accessory you wear, including ones the game added (a weapon holster, for example). Wearing that skin later adds static copies of them.
 
-[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) lists the messages the script shows and what to do about them. [docs/COMPATIBILITY.md](docs/COMPATIBILITY.md) covers rigs and game-specific behaviour.
-
-## Documentation
-
-- [Features](docs/FEATURES.md): every tab, setting, hotkey and the `Config` options.
-- [Architecture](docs/ARCHITECTURE.md): how the single file is organised and what happens when an avatar is applied.
-- [Compatibility](docs/COMPATIBILITY.md): R6, R15, custom rigs and game-specific handling.
-- [Lifecycle](docs/LIFECYCLE.md): respawns, reapplying, saved state, restoring and cleanup.
-- [Data formats](docs/DATA-FORMATS.md): the saved file, share codes, the skin format and the skin sync protocol.
-- [Development](docs/DEVELOPMENT.md): where to change things, how to test, and the parts that need care.
-- [Troubleshooting](docs/TROUBLESHOOTING.md)
+[Troubleshooting](docs/troubleshooting.md) lists the messages the script shows and what to do about them. [Compatibility](docs/reference/compatibility.md) covers rigs and game-specific behaviour.
 
 ## Development
 
 ```sh
-tools/check.sh path/to/luau-bin      # syntax, unknown globals, URL allowlist, versions, credentials
+tools/check.sh path/to/luau-bin      # syntax, globals, URLs, versions, credentials, doc links
 tests/run.sh path/to/luau-bin/luau   # runs the script against a stand-in of the Roblox API
 ```
 
-Both need the [Luau](https://github.com/luau-lang/luau/releases) command-line tools (CI uses 0.741). The tests do not replace trying a change in a real game. See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) and [CONTRIBUTING.md](CONTRIBUTING.md).
+Both need the [Luau](https://github.com/luau-lang/luau/releases) command-line tools (CI uses 0.741) and Python 3. The tests don't replace trying a change in a real game. See [Development](docs/reference/development.md) and [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-No license has been published yet. Until a `LICENSE` file is added, all rights are reserved.
+Avatar Copier is free software: you can redistribute it and/or modify it under the terms of the [GNU General Public License](LICENSE), version 3 or (at your option) any later version. It is distributed without any warranty.
+
+In short: you can use, study, change and share it. If you share a changed version, it has to stay under the same license, with its source available.
 
 ## Credits
 

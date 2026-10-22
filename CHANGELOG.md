@@ -4,10 +4,11 @@
 
 First public release of the source. The script is the v25.0.1 build, with these changes for the public repository:
 
-- The skin sync server is now `Config.SyncUrl`. An empty string turns skin sync off.
+- Released under the GNU General Public License, version 3 or later.
+- The skin sync server is now `Config.SyncUrl`. It is empty in this repository, so skin sync is off until a server is set.
 - The last Portuguese messages are now in English.
 - `Store.write` no longer returns an error message together with a successful save. Callers only read the message after a failure, so nothing visible changes.
-- Comments were trimmed to the ones that explain fragile or non-obvious code. The longer explanations moved to `docs/`.
+- Comments were trimmed to the ones that explain fragile or non-obvious code. The longer explanations moved to `docs/`, with one page per tab of the window.
 
 Changes in the 25.0.1 build itself: saved skins accept HDR colours and particle acceleration, and effect values Roblox cannot rebuild are skipped instead of failing the whole skin.
 

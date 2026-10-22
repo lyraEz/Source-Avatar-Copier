@@ -1,14 +1,16 @@
-# Compatibility
+[Docs](../README.md) / Reference / **Compatibility**
 
-What the script does with different rigs, custom characters, game objects and executors. Messages quoted here are the ones shown in the status line; [TROUBLESHOOTING.md](TROUBLESHOOTING.md) lists them all.
+# <img src="../assets/icons/reference.png" width="40" alt=""> Compatibility
+
+What the script does with different rigs, custom characters, game objects and executors. Messages quoted here are the ones shown in the status line; [TROUBLESHOOTING.md](../troubleshooting.md) lists them all.
 
 ## Detecting the rig
 
-`F.getTrueRigType` looks at the parts, not only at `Humanoid.RigType`, because some games set the property wrong: a character with an `UpperTorso` is R15, one with a `Torso` is R6, and only a character with neither falls back to `Humanoid.RigType`. The avatar model is always built for the rig that was detected, so an R15 avatar is rebuilt as R6 on an R6 character, and the 3D preview uses the same rig.
+[`F.getTrueRigType`](../../src/avatar-copier.lua#L250) looks at the parts, not only at `Humanoid.RigType`, because some games set the property wrong: a character with an `UpperTorso` is R15, one with a `Torso` is R6, and only a character with neither falls back to `Humanoid.RigType`. The avatar model is always built for the rig that was detected, so an R15 avatar is rebuilt as R6 on an R6 character, and the 3D preview uses the same rig.
 
 ## R15
 
-The full avatar applies: meshes, sizes, joint offsets, scale values, accessories, layered and classic clothing and body colours. Characters built with `AnimationConstraint`s instead of `Motor6D`s are handled the same way; `Rig.links` reads both.
+The full avatar applies: meshes, sizes, joint offsets, scale values, accessories, layered and classic clothing and body colours. Characters built with `AnimationConstraint`s instead of `Motor6D`s are handled the same way; [`Rig.links`](../../src/avatar-copier.lua#L47-L66) reads both.
 
 The hip height is copied only when every leg part took the new size. A hip height taller than the real legs makes the character hover and lets it jump again in mid-air, which happened in games that keep their own legs.
 
@@ -24,17 +26,17 @@ Many games ship characters with missing or extra parts. The script applies to ev
 - Only when the character has none of the expected parts does it stop with "This game's character has none of the expected body parts (...)."
 - If a body part is no longer jointed to the root, the character is already broken and the script stops with "The character rig is already disconnected. Respawn or rejoin before applying another avatar."
 
-Accessories are attached with `Humanoid:AddAccessory`. When that doesn't connect them, the script welds the handle's attachment to the body attachment with the same name, and an accessory with no attachment at all goes on top of the head. An accessory that still can't be connected is skipped.
+Accessories are attached with `Humanoid:AddAccessory` ([`Appearance.attach`](../../src/avatar-copier.lua#L604-L653)). When that doesn't connect them, the script welds the handle's attachment to the body attachment with the same name, and an accessory with no attachment at all goes on top of the head. An accessory that still can't be connected is skipped.
 
 ## Parts that refuse new meshes
 
-Some games replicate `MeshPart`s that reject `ApplyMesh`. For those, the real part keeps its mesh, joint and collisions, and a non-colliding, massless local copy of the new part is welded on top while the real one is hidden on your screen (a warning `[Lyra Appearance] <part>: using a local visual` is printed). The next apply removes these copies first.
+Some games replicate `MeshPart`s that reject `ApplyMesh`. For those, the real part keeps its mesh, joint and collisions, and a non-colliding, massless local copy of the new part is welded on top while the real one is hidden on your screen ([`Appearance.visualFallback`](../../src/avatar-copier.lua#L702-L717)) (a warning `[Lyra Appearance] <part>: using a local visual` is printed). The next apply removes these copies first.
 
 ## What the game added to your character
 
 Because the character is changed in place, everything the game attached to it stays where it was: tools and their grip welds, folders, models and parts welded to a limb, attachments with their effects, and the `BillboardGui`/`SurfaceGui` tags on the head. Attachments the avatar also has are updated in place, since game weapons can hold references to them.
 
-An accessory is removed only when the script added it, or when it holds no script and matches one of your own avatar's accessories by name (the script builds your own avatar once to learn the names). Everything else is treated as the game's and kept, which is how game items such as MM2's waist weapons survive. After an apply, the tags on the head are switched on and their text made fully visible.
+An accessory is removed only when the script added it, or when it holds no script and matches one of your own avatar's accessories by name (the script builds your own avatar once to learn the names, [`F.getSafeAccessoryNames`](../../src/avatar-copier.lua#L172-L188)). Everything else is treated as the game's and kept, which is how game items such as MM2's waist weapons survive. After an apply, the tags on the head are switched on and their text made fully visible ([`F.ensureTagsVisible`](../../src/avatar-copier.lua#L1019)).
 
 Two cases worth knowing:
 
@@ -50,7 +52,7 @@ Two cases worth knowing:
 
 ## Games with special handling
 
-- **Evade** (`game.GameId` 3647333358): visual-only mode is always on, and the overlay follows Evade's separate render rig in `workspace.Rigs`.
+- **Evade** (`game.GameId` 3647333358, [`Overlay.EvadeGame`](../../src/avatar-copier.lua#L5888)): visual-only mode is always on, and the overlay follows Evade's separate render rig in `workspace.Rigs`.
 - **Murder Mystery 2**: waist weapons are game accessories and are kept (see above).
 
 ## Visual-only mode
@@ -78,3 +80,9 @@ The script checks every executor function with `type()` before calling it, so a 
 | `firetouchinterest` | ToolsGiver doesn't touch tools lying in the workspace |
 
 **Copy animations** reads animation assets with `game:GetObjects`, and the Roblox menu avatar edits `CoreGui`; both need an executor that allows them, and both fail quietly when it doesn't.
+
+---
+
+| ← Previous | Up | Next → |
+| :--- | :---: | ---: |
+| [Lifecycle](lifecycle.md) | [All docs](../README.md) | [Data formats](data-formats.md) |

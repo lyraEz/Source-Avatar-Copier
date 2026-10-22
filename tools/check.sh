@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
-# Static checks for src/avatar-copier.lua: syntax, unknown globals, URLs, version strings and text hygiene.
-# Usage: tools/check.sh [directory with luau-compile and luau-analyze]   (defaults to PATH)
+# Static checks for src/avatar-copier.lua: syntax, unknown globals, URLs, version strings, text hygiene,
+# credentials and the docs' links into the script.
+# Usage: tools/check.sh [directory with luau-compile, luau-analyze and luau-ast]   (defaults to PATH)
 set -euo pipefail
 cd "$(dirname "$0")/.."
 BIN="${1:-}"
 COMPILE="${BIN:+$BIN/}luau-compile"
 ANALYZE="${BIN:+$BIN/}luau-analyze"
+AST="${BIN:+$BIN/}luau-ast"
 SRC=src/avatar-copier.lua
 status=0
 fail() { echo "FAIL: $*"; status=1; }
@@ -46,6 +48,9 @@ patterns='ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|gho_[A-Za-z0-9]{20,}
 if git grep --untracked -nIE "$patterns" -- ':!tools/check.sh' >/dev/null 2>&1; then
     fail "possible credential: $(git grep --untracked -nIE "$patterns" -- ':!tools/check.sh' | head -n 3)"
 fi
+
+# 7. Line links and code excerpts in the docs still match the script.
+python3 tools/doclinks.py "$AST" >/dev/null || fail "docs are out of step with $SRC: $(python3 tools/doclinks.py "$AST" | head -n 5)"
 
 [ "$status" -eq 0 ] && echo "OK: static checks passed"
 exit "$status"

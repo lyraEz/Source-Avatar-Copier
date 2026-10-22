@@ -1,6 +1,11 @@
-# Troubleshooting
+[Docs](README.md) / **Troubleshooting**
+
+# <img src="assets/icons/help.png" width="40" alt=""> Troubleshooting
 
 Problems you can run into, grouped by what you see. Quoted text is the message the script shows in the status line at the bottom of the window.
+
+> [!TIP]
+> Use your browser's find (<kbd>Ctrl</kbd>+<kbd>F</kbd>) with a few words of the message you see.
 
 ## Applying an avatar
 
@@ -67,7 +72,7 @@ Skins are rig specific. On the other rig (R6 or R15) the skin is rebuilt from it
 ## Importing codes
 
 **"Paste a LYRA code or the full contents of the old JSON."**, **"Code not recognized."** or an **"Invalid …"** message
-The code is incomplete or was changed. Codes are long; chat apps and some text boxes cut them. Codes over 2 MB are refused. Every value is checked (see [DATA-FORMATS.md](DATA-FORMATS.md#limits)) and anything outside the limits refuses the whole code.
+The code is incomplete or was changed. Codes are long; chat apps and some text boxes cut them. Codes over 2 MB are refused. Every value is checked (see [DATA-FORMATS.md](reference/data-formats.md#limits)) and anything outside the limits refuses the whole code.
 
 **"Old JSON applied. Attachments were estimated because the backup contains no joints."**
 Old backups don't record joints, so accessory and limb positions are estimated from the part sizes. Saving the skin again after wearing it records the exact values.
@@ -122,7 +127,7 @@ Your executor has no `getcustomasset`, so the embedded images can't be loaded an
 ## Skin sync
 
 **I don't see other script users' skins.**
-All of these must be true: **See other script users' skins** is on for both of you, `Config.SyncUrl` is set, your executor has `request` (or `http_request`/`syn.request`), and you are in a live server (Roblox Studio has no `JobId`). Skins are checked every few seconds, and a skin that fails validation or can't be built is not drawn.
+Skin sync is off in this repository: `Config.SyncUrl` is empty until you set a server (see [Skin sync](features/skin-sync.md)). With an address set, all of these must be true: **See other script users' skins** is on for both of you, `Config.SyncUrl` is set, your executor has `request` (or `http_request`/`syn.request`), and you are in a live server (Roblox Studio has no `JobId`). Skins are checked every few seconds, and a skin that fails validation or can't be built is not drawn.
 
 ## Auto & Cycle
 
@@ -135,3 +140,11 @@ The cycle is on but the list is empty.
 ## Messages with a file and line number
 
 Some errors come from `assert`, and Luau adds the location of the failing line to those messages, so the status line can show something like `[string "…"]:4362: Invalid dimensions or colors.` The text after the number is the message that matters. This shows up when running the script in the Luau test runner; executors may name the chunk differently.
+
+Still stuck? See [Contributing](../CONTRIBUTING.md#reporting-a-bug) for what to include in a bug report.
+
+---
+
+| ← Previous | Up |
+| :--- | :---: |
+| [Development](reference/development.md) | [All docs](README.md) |

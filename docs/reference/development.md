@@ -1,6 +1,8 @@
-# Development
+[Docs](../README.md) / Reference / **Development**
 
-How the repository is organised, how to check a change, where to make common changes and which parts need care. Read [ARCHITECTURE.md](ARCHITECTURE.md) first for the overall flow.
+# <img src="../assets/icons/reference.png" width="40" alt=""> Development
+
+How the repository is organised, how to check a change, where to make common changes and which parts need care. Read [Architecture](architecture.md) first for the overall flow.
 
 ## Repository layout
 
@@ -10,14 +12,19 @@ tests/mock.lua             a stand-in of the Roblox API for the Luau CLI
 tests/run.lua              the test scenario
 tests/run.sh               builds and runs the tests
 tools/check.sh             static checks
+tools/doclinks.py          keeps the docs' line links and code excerpts in step with the script
 tools/globals.txt          globals the script may use
 tools/allowed-urls.txt     URLs the script may contain
-docs/                      documentation
+docs/README.md             the documentation home
+docs/tabs/                 one page per tab of the window
+docs/features/             the window, hotkeys, skin sync, visual-only mode
+docs/reference/            architecture, lifecycle, compatibility, formats, configuration, this page
+docs/assets/               the icons, the logo and the window map used by the docs
 ```
 
 ## Checking a change
 
-Install the [Luau command-line tools](https://github.com/luau-lang/luau/releases). CI uses version 0.741 from `luau-ubuntu.zip` (SHA-256 `134dc762ad26232af83e43f98dec03ff6030dd3a4452f9408b9d50ccea025503`).
+Install the [Luau command-line tools](https://github.com/luau-lang/luau/releases) and Python 3. CI uses version 0.741 from `luau-ubuntu.zip` (SHA-256 `134dc762ad26232af83e43f98dec03ff6030dd3a4452f9408b9d50ccea025503`).
 
 ```sh
 tools/check.sh path/to/luau-bin
@@ -31,7 +38,8 @@ tests/run.sh path/to/luau-bin/luau
 - a URL in the script that is not in `tools/allowed-urls.txt`;
 - a version mismatch between the first line of the script, the window subtitle and the newest `CHANGELOG.md` entry;
 - CRLF line endings or trailing whitespace in any file;
-- anything that looks like a token or a private key.
+- anything that looks like a token or a private key;
+- a doc link or code excerpt that no longer matches the script (`tools/doclinks.py`, see [Writing docs](#writing-docs)).
 
 CI runs both on every push and pull request.
 
@@ -66,19 +74,19 @@ The tests can't tell how a game reacts. Before a release, try at least:
 
 | To change | Look at |
 | --- | --- |
-| A startup option or hotkey | `Config` at the top |
-| A setting | Its default in `Store.Settings`, its switch in `UI.buildSettings` (`UI.toggle`), and the docs |
-| A setting range | `Store.SettingRanges` or `Store.AutoRanges`, and the stepper values in `UI.buildSettings` / `UI.buildAuto` |
-| A tab | A `UI.build<Name>` function, the tab list in `UI.buildShell` and `UI.layout`, and `UI.selectTab` if it renders on open |
-| Catalog item types and filters | `Catalog.Types`, `Catalog.Filters`, `Catalog.Categories`, `Catalog.Subs` |
-| What a saved skin records | `Visual.schemas` and `Visual.effects` (each class with its fields and value kinds), and the limits in `Visual.validate` |
-| How an avatar is applied | `App.applySnapshot` and `Appearance.apply` |
-| Status messages | `App.report(message, kind)` with `info`, `success`, `warning`, `error` or `loading` |
-| Toasts | `App.toast(spec)` (respects **Show notifications**), see below |
-| The skin sync server | `Config.SyncUrl`; the protocol is in [DATA-FORMATS.md](DATA-FORMATS.md#skin-sync-protocol) |
-| The icons or the logo | `UI.IconData` / `UI.LogoData` (base64 PNG) and `UI.IconBytes` / `UI.LogoBytes` (the decoded size, which is checked). The icon sheet is a grid of 64 px cells, 8 per row, in the order of `UI.IconNames` |
+| A startup option or hotkey | [`Config`](../../src/avatar-copier.lua#L8-L29) at the top ([Configuration](configuration.md)) |
+| A setting | Its default in [`Store.Settings`](../../src/avatar-copier.lua#L1584-L1586), its switch in [`UI.buildSettings`](../../src/avatar-copier.lua#L5105-L5150) ([`UI.toggle`](../../src/avatar-copier.lua#L5048-L5061)), and [Settings](../tabs/settings.md) |
+| A setting range | [`Store.SettingRanges`](../../src/avatar-copier.lua#L1588) or [`Store.AutoRanges`](../../src/avatar-copier.lua#L1597), and the stepper values in [`UI.buildSettings`](../../src/avatar-copier.lua#L5105-L5150) / [`UI.buildAuto`](../../src/avatar-copier.lua#L5228-L5302) |
+| A tab | A `UI.build<Name>` function, the tab list in [`UI.buildShell`](../../src/avatar-copier.lua#L3817-L3885) and [`UI.layout`](../../src/avatar-copier.lua#L3923-L4028), and [`UI.selectTab`](../../src/avatar-copier.lua#L4242-L4252) if it renders on open |
+| Catalog item types and filters | [`Catalog.Types`](../../src/avatar-copier.lua#L2174-L2214), [`Catalog.Filters`](../../src/avatar-copier.lua#L2221), [`Catalog.Categories`](../../src/avatar-copier.lua#L2222-L2235), [`Catalog.Subs`](../../src/avatar-copier.lua#L2236-L2239) |
+| What a saved skin records | [`Visual.schemas`](../../src/avatar-copier.lua#L1161-L1171) and [`Visual.effects`](../../src/avatar-copier.lua#L1173-L1191) (each class with its fields and value kinds), and the limits in [`Visual.validate`](../../src/avatar-copier.lua#L1317-L1352) |
+| How an avatar is applied | [`App.applySnapshot`](../../src/avatar-copier.lua#L1994-L2141) and [`Appearance.apply`](../../src/avatar-copier.lua#L826-L889) |
+| Status messages | [`App.report`](../../src/avatar-copier.lua#L1774)`(message, kind)` with `info`, `success`, `warning`, `error` or `loading` |
+| Toasts | [`App.toast`](../../src/avatar-copier.lua#L1776)`(spec)` (respects **Show notifications**), see below |
+| The skin sync server | `Config.SyncUrl`; the protocol is in [Data formats](data-formats.md#skin-sync-protocol) |
+| The icons or the logo | [`UI.IconData`](../../src/avatar-copier.lua#L3192-L3415) / [`UI.LogoData`](../../src/avatar-copier.lua#L3418-L3561) (base64 PNG) and [`UI.IconBytes`](../../src/avatar-copier.lua#L3191) / [`UI.LogoBytes`](../../src/avatar-copier.lua#L3417) (the decoded size, which is checked). The icon sheet is a grid of 64 px cells, 8 per row, in the order of [`UI.IconNames`](../../src/avatar-copier.lua#L3180-L3181) |
 
-When a new setting or saved field is added, give it a default so older files still load, and keep the type checks in `Store.load`. `Store.load` opens any file with a `Version` above 4 read-only, so only raise the version for a change older builds can't read, and add the migration in the same change.
+When a new setting or saved field is added, give it a default so older files still load, and keep the type checks in [`Store.load`](../../src/avatar-copier.lua#L1690-L1750). `Store.load` opens any file with a `Version` above 4 read-only, so only raise the version for a change older builds can't read, and add the migration in the same change.
 
 ## Parts that need care
 
@@ -96,7 +104,7 @@ When a new setting or saved field is added, give it a default so older files sti
 
 These functions are defined but nothing calls them in this version. They are left as they were in the production script:
 
-- `Appearance.capture`, `Appearance.restore` and `Appearance.preserveBeltSurfaceGap`, from an older apply path that replaced body parts;
+- [`Appearance.capture`](../../src/avatar-copier.lua#L414-L519), [`Appearance.restore`](../../src/avatar-copier.lua#L540-L602) and [`Appearance.preserveBeltSurfaceGap`](../../src/avatar-copier.lua#L522-L539), from an older apply path that replaced body parts;
 - `F.spoofGameEvents`, `F.spoofHD`, `F.fixCam`, `F.lockCamera`, `F.suspendCamScripts`, `F.getCamScripts`, `F.copyNativeAnimations`, `F.installClonedAnimate`, `F.ensDummy`, `F.mkDummy`, `F.sanitizeDescription`, `F.rDsp`, `F.isI`, `F.isB`, `F.isGameAccessory`, `F.getDummyAccessoryNames`, `F.protectSafeTool`, `F.unprotectSafeTool`, `F.protectInstance`, `F.clearProtectedTools`, `F.safeExecute`, `F.aAc`, `F.SetupMobileUI` and `F.showToolsGUI`;
 - the tag restore chain `F.ensureTagDurability`, `F.restoreOriginalTags`, `F.applyPreservedTags`, `F.bindTagToLeaderstats`, `F.formatNumberWithCommas` and `F.updateNameSpoofInRealTime`.
 
@@ -104,7 +112,7 @@ These functions are defined but nothing calls them in this version. They are lef
 
 ## Toast notifier
 
-`Toast` only needs TweenService, TextService and the instances it creates, so the block can be reused elsewhere.
+[`Toast`](../../src/avatar-copier.lua#L2979) only needs TweenService, TextService and the instances it creates, so the block can be reused elsewhere ([`Toast.new`](../../src/avatar-copier.lua#L2992-L3018), [`Toast:Notify`](../../src/avatar-copier.lua#L3054-L3157)).
 
 ```lua
 local notifier = Toast.new({
@@ -140,6 +148,38 @@ notifier:Destroy()
 
 If the `Icon` function errors, the kind's built-in glyph is drawn instead. Heights are measured from the text with TextService rather than `AutomaticSize`, which can feed back on itself and stretch the card. A toast slides in from the right, a line under it shows the time left, and the newest one sits closest to the corner.
 
+## Writing docs
+
+The docs are written for players first: say what a control does and how to use it, then show the code in an **Under the hood** section. Each tab of the window has its own page in `docs/tabs/`, with the same layout: what the tab is for, a short "Try it", a table of every control, notes and warnings, a diagram, then the code.
+
+### Links into the script
+
+A link into `src/avatar-copier.lua` must say what it points at, so `tools/doclinks.py` can check it. There are two forms:
+
+```md
+[`Catalog.search`](../../src/avatar-copier.lua)
+[the key handler](../../src/avatar-copier.lua "RegisterConnection(UIS.InputBegan")
+```
+
+- **A name in backticks** links the whole definition. It must be a top-level name: `Name`, `Table.field`, `Table:method` or a local function.
+- **A title** (the text in quotes) links the one line of the script that contains it, or the whole statement when that line starts a top-level statement. The title must be on exactly one line.
+
+Leave the line numbers out (or wrong) when you write a link and run:
+
+```sh
+python3 tools/doclinks.py path/to/luau-bin/luau-ast --write
+```
+
+It fills in `#Lstart-Lend` from the script's syntax tree. When the script changes and lines move, run it again; `tools/check.sh` fails until you do. A title that matches no line or several lines is reported, never guessed.
+
+### Code excerpts
+
+A block that starts with ` ```lua excerpt ` must be copied from the script: each line has to appear in the script, in the same order (indentation is ignored). A line that is only `…` skips over code. Use plain ` ```lua ` for examples that aren't in the script.
+
+### Pictures
+
+`docs/assets/icons/*.png` are the tab icons from the script's own icon sheet ([Lucide](https://lucide.dev), ISC), drawn on a purple badge so they show on light and dark pages. `docs/assets/window.svg` is a map of the default window, drawn from the sizes in [`UI.buildShell`](../../src/avatar-copier.lua#L3817-L3885), [`UI.layout`](../../src/avatar-copier.lua#L3923-L4028) and [`UI.buildAvatar`](../../src/avatar-copier.lua#L4254-L4312).
+
 ## Style
 
 - Keep the existing style: 4-space indentation, the compact one-line helpers where the file already uses them, and English for every message the player sees.
@@ -150,5 +190,12 @@ If the `Icon` function errors, the kind's built-in glyph is drawn instead. Heigh
 ## Releasing
 
 1. Update the version in the first line of the script, in the window subtitle (`UI.buildShell`) and at the top of `CHANGELOG.md`. `tools/check.sh` fails when they differ.
-2. Run `tools/check.sh` and `tests/run.sh`.
-3. Try the change in real games.
+2. Run `python3 tools/doclinks.py path/to/luau-ast --write` if the script changed.
+3. Run `tools/check.sh` and `tests/run.sh`.
+4. Try the change in real games.
+
+---
+
+| ← Previous | Up | Next → |
+| :--- | :---: | ---: |
+| [Configuration](configuration.md) | [All docs](../README.md) | [Troubleshooting](../troubleshooting.md) |

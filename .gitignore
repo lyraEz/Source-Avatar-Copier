@@ -1,3 +1,4 @@
 .DS_Store
 *.log
 /luau-bin/
+__pycache__/
