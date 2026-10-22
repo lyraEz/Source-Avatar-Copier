@@ -1,0 +1,38 @@
+# Globals the script may read. Anything else reported as an unknown global by luau-analyze fails the check.
+# Roblox
+game
+workspace
+Enum
+Instance
+task
+warn
+print
+typeof
+Vector2
+Vector3
+CFrame
+Color3
+UDim
+UDim2
+TweenInfo
+ColorSequence
+ColorSequenceKeypoint
+NumberSequence
+NumberSequenceKeypoint
+NumberRange
+Random
+Content
+CatalogSearchParams
+# Executor functions, always checked with type() before use
+readfile
+writefile
+isfile
+getcustomasset
+getsynasset
+setclipboard
+toclipboard
+request
+http_request
+syn
+getconnections
+firetouchinterest

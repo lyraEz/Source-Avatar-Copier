@@ -1,0 +1,6 @@
+# URLs that may appear in src/. Anything else fails the check.
+https://api.lyraez.lol/v1/sync
+https://catalog.roblox.com/v1/search/items/details?Limit=30&SortType=
+https://discord.gg/8bxXcn2Vfb
+https://github.com/lyraEz
+https://github.com/lyraEz.png?size=256

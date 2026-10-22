@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install Luau
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 3 \
+            https://github.com/luau-lang/luau/releases/download/0.741/luau-ubuntu.zip \
+            --output /tmp/luau-ubuntu.zip
+          echo "134dc762ad26232af83e43f98dec03ff6030dd3a4452f9408b9d50ccea025503  /tmp/luau-ubuntu.zip" | sha256sum --check --status
+          mkdir -p /tmp/luau-bin
+          unzip -q /tmp/luau-ubuntu.zip luau luau-compile luau-analyze -d /tmp/luau-bin
+      - name: Static checks
+        run: tools/check.sh /tmp/luau-bin
+      - name: Tests
+        run: tests/run.sh /tmp/luau-bin/luau
