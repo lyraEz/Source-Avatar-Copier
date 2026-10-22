@@ -88,20 +88,20 @@ flowchart TD
 
 | Part | Code | What it does |
 | --- | --- | --- |
-| The page | [`UI.buildLooks`](../../src/avatar-copier.lua#L4667-L4720) | Save, the guide, the search, the list and Share & import. |
-| The list | [`UI.renderLooks`](../../src/avatar-copier.lua#L4652-L4666) | Filters `Store.Looks` and draws a row (plus the edit panel for the selected skin). |
-| One row | [`UI.lookRow`](../../src/avatar-copier.lua#L4577-L4600) | Picture, name, detail, Wear, preview and pencil. |
-| Edit panel | [`UI.lookManage`](../../src/avatar-copier.lua#L4601-L4651) | Rename, Update, Copy, Share, Cycle and Delete. |
-| Save / Update | [`UI.captureLook`](../../src/avatar-copier.lua#L4526-L4541) → [`Looks.capture`](../../src/avatar-copier.lua#L2641-L2658) | Refuses while an avatar is being applied, reads the description, captures the parts, saves. |
-| Reading the parts | [`Visual.capture`](../../src/avatar-copier.lua#L1353-L1392) | Walks your character and records everything listed above. |
-| Checking values | [`Visual.validate`](../../src/avatar-copier.lua#L1317-L1352) | The same limits for your file, share codes and skin sync. See [Limits](../reference/data-formats.md#limits). |
-| Share code | [`Looks.share`](../../src/avatar-copier.lua#L2681-L2683) | `LYRA3:` followed by JSON. |
-| Import | [`Looks.import`](../../src/avatar-copier.lua#L2659-L2680) | Reads `LYRA3:`, `LYRA2:`, plain JSON and old JSON backups. |
-| Old backups | [`Visual.legacy`](../../src/avatar-copier.lua#L1393-L1419) | Converts the old Portuguese-keyed format. |
-| Wear | [`UI.wearLook`](../../src/avatar-copier.lua#L4573-L4576) | Applies the skin through `App.applySnapshot`. |
-| Preview | [`UI.previewLook`](../../src/avatar-copier.lua#L4542-L4572) | Builds the skin with its own rig in the 3D preview. |
-| Building the model | [`Visual.model`](../../src/avatar-copier.lua#L1568-L1581) | Asks Roblox for a model and reshapes it to match the saved parts. |
-| Thumbnails | [`UI.lookThumb`](../../src/avatar-copier.lua#L5346-L5374), [`UI.runThumbQueue`](../../src/avatar-copier.lua#L5305-L5345) | Renders skins one at a time and caches them until the skin is updated. |
+| The page | [`UI.buildLooks`](../../src/avatar-copier.lua#L4324-L4377) | Save, the guide, the search, the list and Share & import. |
+| The list | [`UI.renderLooks`](../../src/avatar-copier.lua#L4309-L4323) | Filters `Store.Looks` and draws a row (plus the edit panel for the selected skin). |
+| One row | [`UI.lookRow`](../../src/avatar-copier.lua#L4234-L4257) | Picture, name, detail, Wear, preview and pencil. |
+| Edit panel | [`UI.lookManage`](../../src/avatar-copier.lua#L4258-L4308) | Rename, Update, Copy, Share, Cycle and Delete. |
+| Save / Update | [`UI.captureLook`](../../src/avatar-copier.lua#L4183-L4198) → [`Looks.capture`](../../src/avatar-copier.lua#L2301-L2318) | Refuses while an avatar is being applied, reads the description, captures the parts, saves. |
+| Reading the parts | [`Visual.capture`](../../src/avatar-copier.lua#L1013-L1052) | Walks your character and records everything listed above. |
+| Checking values | [`Visual.validate`](../../src/avatar-copier.lua#L977-L1012) | The same limits for your file, share codes and skin sync. See [Limits](../reference/data-formats.md#limits). |
+| Share code | [`Looks.share`](../../src/avatar-copier.lua#L2341-L2343) | `LYRA3:` followed by JSON. |
+| Import | [`Looks.import`](../../src/avatar-copier.lua#L2319-L2340) | Reads `LYRA3:`, `LYRA2:`, plain JSON and old JSON backups. |
+| Old backups | [`Visual.legacy`](../../src/avatar-copier.lua#L1053-L1079) | Converts the old Portuguese-keyed format. |
+| Wear | [`UI.wearLook`](../../src/avatar-copier.lua#L4230-L4233) | Applies the skin through `App.applySnapshot`. |
+| Preview | [`UI.previewLook`](../../src/avatar-copier.lua#L4199-L4229) | Builds the skin with its own rig in the 3D preview. |
+| Building the model | [`Visual.model`](../../src/avatar-copier.lua#L1228-L1241) | Asks Roblox for a model and reshapes it to match the saved parts. |
+| Thumbnails | [`UI.lookThumb`](../../src/avatar-copier.lua#L5003-L5031), [`UI.runThumbQueue`](../../src/avatar-copier.lua#L4962-L5002) | Renders skins one at a time and caches them until the skin is updated. |
 
 ### A skin can only be saved from your own, settled character
 

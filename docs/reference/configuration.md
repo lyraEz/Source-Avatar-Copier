@@ -2,7 +2,7 @@
 
 # <img src="../assets/icons/reference.png" width="40" alt=""> Configuration
 
-The [`Config`](../../src/avatar-copier.lua#L8-L29) table at the top of `src/avatar-copier.lua` holds the startup options and the hotkeys. Most people never need to touch it: everything a player changes lives in the [Settings](../tabs/settings.md) tab and is saved there.
+The [`Config`](../../src/avatar-copier.lua#L8-L26) table at the top of `src/avatar-copier.lua` holds the startup options and the hotkeys. Most people never need to touch it: everything a player changes lives in the [Settings](../tabs/settings.md) tab and is saved there.
 
 To change a value, edit the script before running it:
 
@@ -31,7 +31,6 @@ local Config = {
 | `ToolsGiverKey` | `L` | ToolsGiver on or off. |
 | `HideUIKey` | `K` | Hide the game's interface. |
 | `SyncUrl` | `""` | The [skin sync](../features/skin-sync.md) server. Empty keeps skin sync off. |
-| `DoorsCameraFix`, `SpoofGameEvents`, `RestoreYourTagAfterRespawn` | | Not used by this version (see [Legacy code](development.md#legacy-code)). |
 
 The hub shortcut (<kbd>RightControl</kbd>) isn't in `Config`; change it in [Settings](../tabs/settings.md#open--close).
 
@@ -39,7 +38,7 @@ The hub shortcut (<kbd>RightControl</kbd>) isn't in `Config`; change it in [Sett
 
 With `TargetUsername = "restore"` (or `"stop"`, or your own username), the script doesn't open the window. It gives back the camera, the top bar and Roblox's interface, resets your character so the game gives you a fresh one, and stops. Use it when something went wrong and you want a clean start.
 
-[The restore mode block](../../src/avatar-copier.lua#L142-L150 "targetLower == lp.Name:lower()") is near the top of the script.
+[The restore mode block](../../src/avatar-copier.lua#L139-L147 "targetLower == lp.Name:lower()") is near the top of the script.
 
 ## Under the hood
 
@@ -57,9 +56,9 @@ local Config = {
 
 | Part | Code | What it does |
 | --- | --- | --- |
-| Settings into `Config` | [`Store.sync`](../../src/avatar-copier.lua#L1751-L1755) | Copies three settings into `Config` on every save. |
-| The preview on start | [the startup block](../../src/avatar-copier.lua#L6432-L6467 "local built,buildError=xpcall(function()") | Searches `TargetUsername` once the window is built. |
-| Hotkeys | [the `InputBegan` handler](../../src/avatar-copier.lua#L1008-L1014 "RegisterConnection(UIS.InputBegan:Connect(function(input, processed)") | Reads the four `Config` keys. |
+| Settings into `Config` | [`Store.sync`](../../src/avatar-copier.lua#L1411-L1415) | Copies three settings into `Config` on every save. |
+| The preview on start | [the startup block](../../src/avatar-copier.lua#L6089-L6124 "local built,buildError=xpcall(function()") | Searches `TargetUsername` once the window is built. |
+| Hotkeys | [the `InputBegan` handler](../../src/avatar-copier.lua#L674-L680 "RegisterConnection(UIS.InputBegan:Connect(function(input, processed)") | Reads the four `Config` keys. |
 
 ---
 

@@ -40,13 +40,13 @@ flowchart LR
 
 | Part | Code | What it does |
 | --- | --- | --- |
-| The page | [`UI.buildPlayers`](../../src/avatar-copier.lua#L4457-L4466) | The search box, the count and the list. Re-renders when someone joins or leaves. |
-| Filling the list | [`UI.renderPlayers`](../../src/avatar-copier.lua#L4474-L4485) | Reads `Players:GetPlayers()`, sorts by name and adds a row per match. |
-| Filtering | [`UI.matches`](../../src/avatar-copier.lua#L4471-L4473) | Case-insensitive match on name, display name or id. |
-| Waiting for typing | [`UI.scheduleList`](../../src/avatar-copier.lua#L4467-L4470) | Re-renders 0.16 s after the last change, so typing doesn't rebuild the list on every key. |
-| One row | [`UI.profileRow`](../../src/avatar-copier.lua#L4434-L4450) | The picture, the names and the Wear, Preview and star buttons. Shared with Favorites & Recent. |
-| Wear | [`App.wearProfile`](../../src/avatar-copier.lua#L2155-L2164) | Resolves the profile, then applies it. |
-| Star | [`UI.toggleFavorite`](../../src/avatar-copier.lua#L5604-L5609), [`App.toggleFavorite`](../../src/avatar-copier.lua#L1786-L1794) | Asks before removing, adds to the top of the list, saves. |
+| The page | [`UI.buildPlayers`](../../src/avatar-copier.lua#L4114-L4123) | The search box, the count and the list. Re-renders when someone joins or leaves. |
+| Filling the list | [`UI.renderPlayers`](../../src/avatar-copier.lua#L4131-L4142) | Reads `Players:GetPlayers()`, sorts by name and adds a row per match. |
+| Filtering | [`UI.matches`](../../src/avatar-copier.lua#L4128-L4130) | Case-insensitive match on name, display name or id. |
+| Waiting for typing | [`UI.scheduleList`](../../src/avatar-copier.lua#L4124-L4127) | Re-renders 0.16 s after the last change, so typing doesn't rebuild the list on every key. |
+| One row | [`UI.profileRow`](../../src/avatar-copier.lua#L4091-L4107) | The picture, the names and the Wear, Preview and star buttons. Shared with Favorites & Recent. |
+| Wear | [`App.wearProfile`](../../src/avatar-copier.lua#L1815-L1824) | Resolves the profile, then applies it. |
+| Star | [`UI.toggleFavorite`](../../src/avatar-copier.lua#L5261-L5266), [`App.toggleFavorite`](../../src/avatar-copier.lua#L1446-L1454) | Asks before removing, adds to the top of the list, saves. |
 
 ### The list is built from the players in the server
 

@@ -50,16 +50,16 @@ The same overlay is used to draw other players' skins in [Skin sync](skin-sync.m
 
 | Part | Code | What it does |
 | --- | --- | --- |
-| Is it on? | [`Overlay.visualOnly`](../../src/avatar-copier.lua#L5889-L5891) | The setting, or the Evade game id. |
-| Where overlays live | [`Overlay.folder`](../../src/avatar-copier.lua#L5893-L5903) | `LyraSkinOverlays` inside the camera. |
-| The game's visible body | [`Overlay.renderRig`](../../src/avatar-copier.lua#L5906-L5929), [`Overlay.target`](../../src/avatar-copier.lua#L5930-L5932) | Finds a separate render model jointed to your root. |
-| Your own avatar | [`Overlay.showLocal`](../../src/avatar-copier.lua#L6011-L6015) | Called by `App.applySnapshot` instead of `Appearance.apply`. |
-| Preparing the model | [`Overlay.prepare`](../../src/avatar-copier.lua#L5970-L5990) | Removes scripts, collisions and the `Animator`, and stops the Humanoid, so only the copied joints move it. |
-| Attaching | [`Overlay.attach`](../../src/avatar-copier.lua#L6169-L6179), [`Overlay.link`](../../src/avatar-copier.lua#L6099-L6134), [`Overlay.pairJoints`](../../src/avatar-copier.lua#L6062-L6098) | Chooses joints or parts and pairs every overlay part with a real one. |
-| Hiding the real body | [`Overlay.hide`](../../src/avatar-copier.lua#L6137-L6161) | Remembers each original value so it can be put back. |
-| The frame loop | [`Overlay.start`](../../src/avatar-copier.lua#L6211-L6273) | Places every moving part with one `BulkMoveTo` call. |
-| Recovery | [`Overlay.revive`](../../src/avatar-copier.lua#L6181-L6194) | Rebuilds a deleted overlay from its spare copy. |
-| Removing | [`Overlay.clear`](../../src/avatar-copier.lua#L6195-L6205), [`Overlay.clearAll`](../../src/avatar-copier.lua#L6206-L6210) | Destroys the overlay and shows the real body again. |
+| Is it on? | [`Overlay.visualOnly`](../../src/avatar-copier.lua#L5546-L5548) | The setting, or the Evade game id. |
+| Where overlays live | [`Overlay.folder`](../../src/avatar-copier.lua#L5550-L5560) | `LyraSkinOverlays` inside the camera. |
+| The game's visible body | [`Overlay.renderRig`](../../src/avatar-copier.lua#L5563-L5586), [`Overlay.target`](../../src/avatar-copier.lua#L5587-L5589) | Finds a separate render model jointed to your root. |
+| Your own avatar | [`Overlay.showLocal`](../../src/avatar-copier.lua#L5668-L5672) | Called by `App.applySnapshot` instead of `Appearance.apply`. |
+| Preparing the model | [`Overlay.prepare`](../../src/avatar-copier.lua#L5627-L5647) | Removes scripts, collisions and the `Animator`, and stops the Humanoid, so only the copied joints move it. |
+| Attaching | [`Overlay.attach`](../../src/avatar-copier.lua#L5826-L5836), [`Overlay.link`](../../src/avatar-copier.lua#L5756-L5791), [`Overlay.pairJoints`](../../src/avatar-copier.lua#L5719-L5755) | Chooses joints or parts and pairs every overlay part with a real one. |
+| Hiding the real body | [`Overlay.hide`](../../src/avatar-copier.lua#L5794-L5818) | Remembers each original value so it can be put back. |
+| The frame loop | [`Overlay.start`](../../src/avatar-copier.lua#L5868-L5930) | Places every moving part with one `BulkMoveTo` call. |
+| Recovery | [`Overlay.revive`](../../src/avatar-copier.lua#L5838-L5851) | Rebuilds a deleted overlay from its spare copy. |
+| Removing | [`Overlay.clear`](../../src/avatar-copier.lua#L5852-L5862), [`Overlay.clearAll`](../../src/avatar-copier.lua#L5863-L5867) | Destroys the overlay and shows the real body again. |
 
 ### Visual-only mode never touches the character
 

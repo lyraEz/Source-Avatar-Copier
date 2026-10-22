@@ -29,10 +29,10 @@ It needs saved data (otherwise the counters would reset every run) and respects 
 
 | Part | Code | What it does |
 | --- | --- | --- |
-| The page | [`UI.buildCreator`](../../src/avatar-copier.lua#L5524-L5575) | The two cards, the copy buttons and the manual-copy fallback. |
-| The links | [`App.Creator`](../../src/avatar-copier.lua#L1770) | Name, GitHub and Discord addresses in one place. |
-| The photo | [`UI.loadCreatorPhoto`](../../src/avatar-copier.lua#L5497-L5522) | Downloads the photo once, checks it is a real PNG or JPEG under 2 MB, caches it. |
-| The invite | [`UI.schedulePromo`](../../src/avatar-copier.lua#L5858-L5882) | Counts runs in `Store.Promo` and shows the notification at most twice. |
+| The page | [`UI.buildCreator`](../../src/avatar-copier.lua#L5181-L5232) | The two cards, the copy buttons and the manual-copy fallback. |
+| The links | [`App.Creator`](../../src/avatar-copier.lua#L1430) | Name, GitHub and Discord addresses in one place. |
+| The photo | [`UI.loadCreatorPhoto`](../../src/avatar-copier.lua#L5154-L5179) | Downloads the photo once, checks it is a real PNG or JPEG under 2 MB, caches it. |
+| The invite | [`UI.schedulePromo`](../../src/avatar-copier.lua#L5515-L5539) | Counts runs in `Store.Promo` and shows the notification at most twice. |
 
 ### The photo is checked before it is used
 

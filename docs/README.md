@@ -24,14 +24,14 @@ One page per tab of the window, in the same order as the side menu.
 
 | | Tab | What it's for | Built by |
 | :-: | --- | --- | --- |
-| <img src="assets/icons/copy-avatar.png" width="32" alt=""> | **[Copy Avatar](tabs/copy-avatar.md)** | Search anyone, look at their avatar in 3D, wear it. Undo and Restore. | [`UI.buildAvatar`](../src/avatar-copier.lua#L4254-L4312) |
-| <img src="assets/icons/server.png" width="32" alt=""> | **[Server](tabs/server.md)** | Wear or preview anyone in your server with one tap. | [`UI.buildPlayers`](../src/avatar-copier.lua#L4457-L4466) |
-| <img src="assets/icons/favorites-recent.png" width="32" alt=""> | **[Favorites & Recent](tabs/favorites-recent.md)** | Profiles you starred and the ones you looked at lately. | [`UI.buildCollection`](../src/avatar-copier.lua#L4486-L4504) |
-| <img src="assets/icons/saved-skins.png" width="32" alt=""> | **[Saved Skins](tabs/saved-skins.md)** | Save what you wear, wear it again anywhere, share it as a code. | [`UI.buildLooks`](../src/avatar-copier.lua#L4667-L4720) |
-| <img src="assets/icons/roblox-shop.png" width="32" alt=""> | **[Roblox Shop](tabs/roblox-shop.md)** | Try catalog items, bundles, animations and emotes on your avatar. | [`UI.buildCatalog`](../src/avatar-copier.lua#L4989-L5046) |
-| <img src="assets/icons/auto-cycle.png" width="32" alt=""> | **[Auto & Cycle](tabs/auto-cycle.md)** | An avatar on start, and a new avatar every death or every few minutes. | [`UI.buildAuto`](../src/avatar-copier.lua#L5228-L5302) |
-| <img src="assets/icons/settings.png" width="32" alt=""> | **[Settings](tabs/settings.md)** | Every option, its default and the code that reads it. | [`UI.buildSettings`](../src/avatar-copier.lua#L5105-L5150) |
-| <img src="assets/icons/creator.png" width="32" alt=""> | **[Creator](tabs/creator.md)** | The author's Discord and GitHub. | [`UI.buildCreator`](../src/avatar-copier.lua#L5524-L5575) |
+| <img src="assets/icons/copy-avatar.png" width="32" alt=""> | **[Copy Avatar](tabs/copy-avatar.md)** | Search anyone, look at their avatar in 3D, wear it. Undo and Restore. | [`UI.buildAvatar`](../src/avatar-copier.lua#L3913-L3971) |
+| <img src="assets/icons/server.png" width="32" alt=""> | **[Server](tabs/server.md)** | Wear or preview anyone in your server with one tap. | [`UI.buildPlayers`](../src/avatar-copier.lua#L4114-L4123) |
+| <img src="assets/icons/favorites-recent.png" width="32" alt=""> | **[Favorites & Recent](tabs/favorites-recent.md)** | Profiles you starred and the ones you looked at lately. | [`UI.buildCollection`](../src/avatar-copier.lua#L4143-L4161) |
+| <img src="assets/icons/saved-skins.png" width="32" alt=""> | **[Saved Skins](tabs/saved-skins.md)** | Save what you wear, wear it again anywhere, share it as a code. | [`UI.buildLooks`](../src/avatar-copier.lua#L4324-L4377) |
+| <img src="assets/icons/roblox-shop.png" width="32" alt=""> | **[Roblox Shop](tabs/roblox-shop.md)** | Try catalog items, bundles, animations and emotes on your avatar. | [`UI.buildCatalog`](../src/avatar-copier.lua#L4646-L4703) |
+| <img src="assets/icons/auto-cycle.png" width="32" alt=""> | **[Auto & Cycle](tabs/auto-cycle.md)** | An avatar on start, and a new avatar every death or every few minutes. | [`UI.buildAuto`](../src/avatar-copier.lua#L4885-L4959) |
+| <img src="assets/icons/settings.png" width="32" alt=""> | **[Settings](tabs/settings.md)** | Every option, its default and the code that reads it. | [`UI.buildSettings`](../src/avatar-copier.lua#L4762-L4807) |
+| <img src="assets/icons/creator.png" width="32" alt=""> | **[Creator](tabs/creator.md)** | The author's Discord and GitHub. | [`UI.buildCreator`](../src/avatar-copier.lua#L5181-L5232) |
 
 ## Features that work across tabs
 
@@ -60,7 +60,7 @@ For developers, or anyone curious about how it works.
 
 Every page ends with an **Under the hood** section for the curious.
 
-- A link like [`App.applySnapshot`](../src/avatar-copier.lua#L1994-L2141) opens the full script on GitHub with that function's lines highlighted.
+- A link like [`App.applySnapshot`](../src/avatar-copier.lua#L1654-L1801) opens the full script on GitHub with that function's lines highlighted.
 - Setting names in [Settings](tabs/settings.md) link to the exact line that creates each switch.
 - Code blocks are copied from the script. A line with only `…` means some lines were skipped.
 

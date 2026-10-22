@@ -37,14 +37,14 @@ Two lists of Roblox profiles: the ones you starred, and the ones you looked at l
 
 | Part | Code | What it does |
 | --- | --- | --- |
-| The page | [`UI.buildCollection`](../../src/avatar-copier.lua#L4486-L4504) | The two list buttons, the filter, the count, **Clear list** and the list. |
-| Filling the list | [`UI.renderCollection`](../../src/avatar-copier.lua#L4505-L4524) | Picks `Store.Favorites` or `Store.Recent`, filters it and adds one row per profile with a remove button. |
-| One row | [`UI.profileRow`](../../src/avatar-copier.lua#L4434-L4450) | Shared with [Server](server.md). Here the last button removes the row instead of starring. |
-| Starring | [`App.toggleFavorite`](../../src/avatar-copier.lua#L1786-L1794) | Adds to the top, refuses past 200, saves. |
-| Is it a favorite? | [`App.favoriteIndex`](../../src/avatar-copier.lua#L1781-L1785) | Matches by user id, or by name when there is no id. |
-| Recent | [`App.addRecent`](../../src/avatar-copier.lua#L1795-L1800) | Moves the profile to the top, keeps 30. |
-| Confirmations | [`UI.confirm`](../../src/avatar-copier.lua#L5588-L5603) | The Cancel / Confirm dialog. |
-| Saving | [`App.persist`](../../src/avatar-copier.lua#L1777-L1780) → [`Store.save`](../../src/avatar-copier.lua#L1756-L1760) | Writes `Copier_SavedProfiles.json` (see [Data formats](../reference/data-formats.md#saved-file)). |
+| The page | [`UI.buildCollection`](../../src/avatar-copier.lua#L4143-L4161) | The two list buttons, the filter, the count, **Clear list** and the list. |
+| Filling the list | [`UI.renderCollection`](../../src/avatar-copier.lua#L4162-L4181) | Picks `Store.Favorites` or `Store.Recent`, filters it and adds one row per profile with a remove button. |
+| One row | [`UI.profileRow`](../../src/avatar-copier.lua#L4091-L4107) | Shared with [Server](server.md). Here the last button removes the row instead of starring. |
+| Starring | [`App.toggleFavorite`](../../src/avatar-copier.lua#L1446-L1454) | Adds to the top, refuses past 200, saves. |
+| Is it a favorite? | [`App.favoriteIndex`](../../src/avatar-copier.lua#L1441-L1445) | Matches by user id, or by name when there is no id. |
+| Recent | [`App.addRecent`](../../src/avatar-copier.lua#L1455-L1460) | Moves the profile to the top, keeps 30. |
+| Confirmations | [`UI.confirm`](../../src/avatar-copier.lua#L5245-L5260) | The Cancel / Confirm dialog. |
+| Saving | [`App.persist`](../../src/avatar-copier.lua#L1437-L1440) → [`Store.save`](../../src/avatar-copier.lua#L1416-L1420) | Writes `Copier_SavedProfiles.json` (see [Data formats](../reference/data-formats.md#saved-file)). |
 
 ### Recent keeps one entry per person, newest first
 

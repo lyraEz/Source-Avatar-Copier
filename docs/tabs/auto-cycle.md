@@ -98,18 +98,18 @@ Because the next avatar loads **during** the respawn timer, it is ready when the
 
 | Part | Code | What it does |
 | --- | --- | --- |
-| The page | [`UI.buildAuto`](../../src/avatar-copier.lua#L5228-L5302) | Every card, toggle, dropdown and button on this tab. |
-| Redrawing | [`UI.renderAuto`](../../src/avatar-copier.lua#L5481-L5495), [`UI.autoStatus`](../../src/avatar-copier.lua#L5454-L5480) | The list, the labels and the live status (updated every second). |
-| Auto-load | [`Auto.boot`](../../src/avatar-copier.lua#L2899-L2927) | Waits for your character, its appearance and the delay, then applies. |
-| Which avatar | [`Auto.startEntry`](../../src/avatar-copier.lua#L2880-L2898) | This game's avatar first, then the chosen source. |
-| Next in the list | [`Auto.pick`](../../src/avatar-copier.lua#L2723-L2753) | In order, shuffle, random, ping-pong and the end-of-list action. |
-| Loading it | [`Auto.prepare`](../../src/avatar-copier.lua#L2755-L2772), [`Auto.resolve`](../../src/avatar-copier.lua#L2711-L2721) | Tries up to 5 entries, skipping ones that can't load. |
-| Deaths | [`Auto.watch`](../../src/avatar-copier.lua#L2853-L2862), [`Auto.count`](../../src/avatar-copier.lua#L2813-L2828) | Counts deaths and starts loading the next avatar. |
-| Respawn | [`Auto.onRespawn`](../../src/avatar-copier.lua#L2830-L2852) | Applies the prepared avatar to the new character. |
-| Timer | [`Auto.startTimer`](../../src/avatar-copier.lua#L2863-L2878) | Checks once per second. |
-| Switch now | [`Auto.switchNow`](../../src/avatar-copier.lua#L2781-L2795) | Previous, Next, Wear and the chat commands. |
-| Reordering | [`UI.startCycleDrag`](../../src/avatar-copier.lua#L5384-L5430), [`Auto.move`](../../src/avatar-copier.lua#L2796-L2806) | The drag line and moving the entry (the current position follows). |
-| List entries | [`Auto.entryFrom`](../../src/avatar-copier.lua#L2686-L2693), [`Store.entry`](../../src/avatar-copier.lua#L1598-L1610) | A profile is stored as id and names, a skin as its key. Never the avatar itself. |
+| The page | [`UI.buildAuto`](../../src/avatar-copier.lua#L4885-L4959) | Every card, toggle, dropdown and button on this tab. |
+| Redrawing | [`UI.renderAuto`](../../src/avatar-copier.lua#L5138-L5152), [`UI.autoStatus`](../../src/avatar-copier.lua#L5111-L5137) | The list, the labels and the live status (updated every second). |
+| Auto-load | [`Auto.boot`](../../src/avatar-copier.lua#L2559-L2587) | Waits for your character, its appearance and the delay, then applies. |
+| Which avatar | [`Auto.startEntry`](../../src/avatar-copier.lua#L2540-L2558) | This game's avatar first, then the chosen source. |
+| Next in the list | [`Auto.pick`](../../src/avatar-copier.lua#L2383-L2413) | In order, shuffle, random, ping-pong and the end-of-list action. |
+| Loading it | [`Auto.prepare`](../../src/avatar-copier.lua#L2415-L2432), [`Auto.resolve`](../../src/avatar-copier.lua#L2371-L2381) | Tries up to 5 entries, skipping ones that can't load. |
+| Deaths | [`Auto.watch`](../../src/avatar-copier.lua#L2513-L2522), [`Auto.count`](../../src/avatar-copier.lua#L2473-L2488) | Counts deaths and starts loading the next avatar. |
+| Respawn | [`Auto.onRespawn`](../../src/avatar-copier.lua#L2490-L2512) | Applies the prepared avatar to the new character. |
+| Timer | [`Auto.startTimer`](../../src/avatar-copier.lua#L2523-L2538) | Checks once per second. |
+| Switch now | [`Auto.switchNow`](../../src/avatar-copier.lua#L2441-L2455) | Previous, Next, Wear and the chat commands. |
+| Reordering | [`UI.startCycleDrag`](../../src/avatar-copier.lua#L5041-L5087), [`Auto.move`](../../src/avatar-copier.lua#L2456-L2466) | The drag line and moving the entry (the current position follows). |
+| List entries | [`Auto.entryFrom`](../../src/avatar-copier.lua#L2346-L2353), [`Store.entry`](../../src/avatar-copier.lua#L1258-L1270) | A profile is stored as id and names, a skin as its key. Never the avatar itself. |
 
 ### Shuffle: everyone once, then a new round
 

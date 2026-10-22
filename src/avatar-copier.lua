@@ -13,11 +13,8 @@ local Config = {
     TargetUsername = "",
     CopyAvatarHD = false,
     CopyAvatar = true,
-    DoorsCameraFix = false, -- Unused.
     AnimResync = true, -- Replays the animation swap once so other players load it completely.
-    SpoofGameEvents = true, -- Unused.
     CopyAnimation = false,
-    RestoreYourTagAfterRespawn = true, -- Unused.
     EnableFreeCam = true,
     FreeCamKey = Enum.KeyCode.V,
     FreeCamSpeed = 1.5,
@@ -151,21 +148,9 @@ end
 
 local US = game:GetService("UserService"); local Debris = game:GetService("Debris"); local localBackpack = lp:WaitForChild("Backpack", 5)
 local S = { cD = nil, cU = nil, tN = "", tD = "", iC = false, fvOn = false, hdOn = false, hdName = "", hdUser = nil, customDesc = nil, cameraLockActive = false, lockedCamSubject = nil, lockedCamType = nil, suspendedCamScripts = {}, strictCamEnd = 0, appliedChar = nil, currentRigType = nil, freeCamActive = false, freeCamPosition = Vector3.zero, freeCamKeysPressed = {}, savedHRPAnchored = false, mouseRightDown = false, cameraRotX = 0, cameraRotY = 0, originalTags = {}, hasSavedOriginalTags = false, leaderstatConnections = {}, tagWatcherConnection = nil, BD = {Head=1, HumanoidRootPart=1, UpperTorso=1, LowerTorso=1, LeftFoot=1, LeftLowerLeg=1, LeftUpperLeg=1, RightFoot=1, RightLowerLeg=1, RightUpperLeg=1, LeftHand=1, LeftLowerArm=1, LeftUpperArm=1, RightHand=1, RightLowerArm=1, RightUpperArm=1, Torso=1, ["Left Arm"]=1, ["Right Arm"]=1, ["Left Leg"]=1, ["Right Leg"]=1}, R15M = {Head=Enum.BodyPartR15.Head, UpperTorso=Enum.BodyPartR15.UpperTorso, LowerTorso=Enum.BodyPartR15.LowerTorso, LeftFoot=Enum.BodyPartR15.LeftFoot, LeftLowerLeg=Enum.BodyPartR15.LeftLowerLeg, LeftUpperLeg=Enum.BodyPartR15.LeftUpperLeg, RightFoot=Enum.BodyPartR15.RightFoot, RightLowerLeg=Enum.BodyPartR15.RightLowerLeg, RightUpperLeg=Enum.BodyPartR15.RightUpperLeg, LeftHand=Enum.BodyPartR15.LeftHand, LeftLowerArm=Enum.BodyPartR15.LeftLowerArm, LeftUpperArm=Enum.BodyPartR15.LeftUpperArm, RightHand=Enum.BodyPartR15.RightHand, RightLowerArm=Enum.BodyPartR15.RightLowerArm, RightUpperArm=Enum.BodyPartR15.RightUpperArm} }
-local S_ProtectedTools = {}; local bypassProtection = false; local F = {}
+local F = {}
 
 local S_SafeTools = {}
-local SafeToolWatchers = setmetatable({}, {__mode = "k"})
-F.protectSafeTool = function(inst)
-    if not inst then return end
-    S_SafeTools[inst] = true
-    for _, child in ipairs(inst:GetDescendants()) do S_SafeTools[child] = true end
-    if not SafeToolWatchers[inst] then
-        SafeToolWatchers[inst] = RegisterConnection(inst.DescendantAdded:Connect(function(child)
-            if S_SafeTools[inst] then S_SafeTools[child] = true end
-        end))
-    end
-end
-F.unprotectSafeTool = function(inst) if not inst then return end; S_SafeTools[inst] = nil; for _, desc in ipairs(inst:GetDescendants()) do S_SafeTools[desc] = nil end end
 
 -- Game accessories (MM2 waist weapons, for example) must survive an avatar swap.
 S.ownAccNames = nil
@@ -185,30 +170,6 @@ F.getSafeAccessoryNames = function()
     end)
     if next(names) ~= nil then S.ownAccNames = names end
     return names
-end
-F.getDummyAccessoryNames = function(dm) local names = {}; if dm then for _, ac in ipairs(dm:GetChildren()) do if ac:IsA("Accessory") then names[ac.Name] = true end end end; return names end
-
--- Only read by F.isGameAccessory, which nothing calls anymore.
-F.snapshotOwnAccessories = function()
-    local ch = lp.Character; if not ch then return end
-    S.ownAccSnapshot = S.ownAccSnapshot or {}
-    for _, ac in ipairs(ch:GetChildren()) do
-        if ac:IsA("Accessory") then S.ownAccSnapshot[ac.Name] = true end
-    end
-end
-F.snapshotOwnAccessories()
-RegisterConnection(lp.CharacterAdded:Connect(function() task.wait(2); F.snapshotOwnAccessories() end))
-
-F.isGameAccessory = function(ac, dm)
-    if not ac or not ac:IsA("Accessory") then return false end
-    if ac:GetAttribute("Copier_CopiedItem") then return false end
-    if ac:FindFirstChildOfClass("Script") or ac:FindFirstChildOfClass("LocalScript") then return true end
-    local ownNames = F.getSafeAccessoryNames()
-    if ownNames and ownNames[ac.Name] then return false end
-    if S.ownAccSnapshot and S.ownAccSnapshot[ac.Name] then return false end
-    local targetNames = F.getDummyAccessoryNames(dm)
-    if targetNames[ac.Name] then return false end
-    return true
 end
 
 local HiddenGuis = {}
@@ -238,47 +199,12 @@ F.ToggleUI = function()
     end
 end
 
-F.SetupMobileUI = function() end
-
 _G.Copier_ToolsGiverToggle = function() if not IsAlive() then return end; task.spawn(function() _G.ToolsGiverActive = not _G.ToolsGiverActive; if _G.ToolsGiverActive then F.showToolsGUI(true); F.startToolsGiverLoop() else F.showToolsGUI(false) end end) end
 F.startToolsGiverLoop = function() task.spawn(function() while _G.ToolsGiverActive and IsAlive() do local bp = lp:FindFirstChild("Backpack"); local char = lp.Character; if bp then local safeServices = {workspace, game:GetService("Lighting"), game:GetService("ReplicatedStorage"), game:GetService("ReplicatedFirst"), game:GetService("StarterPack"), game:GetService("Players")}; for _, service in ipairs(safeServices) do pcall(function() for _, obj in ipairs(service:GetDescendants()) do if obj:IsA("Tool") or obj:IsA("HopperBin") then local hasTool = bp:FindFirstChild(obj.Name) or (char and char:FindFirstChild(obj.Name)); if not hasTool then if obj:IsDescendantOf(workspace) and firetouchinterest then local hrp = char and char:FindFirstChild("HumanoidRootPart"); local handle = obj:FindFirstChild("Handle") or obj:FindFirstChildWhichIsA("BasePart"); if hrp and handle then pcall(function() firetouchinterest(hrp, handle, 0); task.wait(); firetouchinterest(hrp, handle, 1) end) end end; pcall(function() local clone = obj:Clone(); clone.Parent = bp end) end end end end) end end; task.wait(1.5) end end) end
 F.showToolsGUI = function(isActive) if not IsAlive() then return end; local guiParent = lp:WaitForChild("PlayerGui", 5); if not guiParent then return end; local existing = guiParent:FindFirstChild("ToolsGiverPopupGUI"); if existing then existing:Destroy() end; local sg = Instance.new("ScreenGui"); sg.Name = "ToolsGiverPopupGUI"; sg.Parent = guiParent; local frame = Instance.new("Frame", sg); frame.Size = UDim2.new(0, 320, 0, 45); frame.Position = UDim2.new(0.5, -160, 0.85, 0); frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20); frame.BackgroundTransparency = 0.15; frame.BorderSizePixel = 0; local corner = Instance.new("UICorner", frame); corner.CornerRadius = UDim.new(0, 8); local stroke = Instance.new("UIStroke", frame); stroke.Thickness = 1.5; stroke.Color = isActive and Color3.fromRGB(0, 255, 120) or Color3.fromRGB(255, 60, 60); local txt = Instance.new("TextLabel", frame); txt.Size = UDim2.new(1, 0, 1, 0); txt.BackgroundTransparency = 1; txt.Font = Enum.Font.GothamBold; txt.TextSize = 15; txt.TextColor3 = Color3.fromRGB(255, 255, 255); txt.Text = isActive and "ToolsGiver [ON] - Scanning Safely..." or "ToolsGiver [OFF]"; task.spawn(function() task.wait(3.5); if sg and sg.Parent then for i = 0, 1, 0.1 do if frame then frame.BackgroundTransparency = 0.15 + (i * 0.85); txt.TextTransparency = i; stroke.Transparency = i end; task.wait(0.05) end; sg:Destroy() end end) end
 
-F.safeExecute = function(name, func) local success, err = pcall(func); if not success then S.lastError = tostring(err); warn("[Copier Engine Error - " .. name .. "]:", tostring(err)) end; return success end
-F.protectInstance = function(inst) if not inst then return end; S_ProtectedTools[inst] = true; for _, desc in ipairs(inst:GetDescendants()) do S_ProtectedTools[desc] = true end; RegisterConnection(inst.DescendantAdded:Connect(function(desc) S_ProtectedTools[desc] = true end)) end
-F.clearProtectedTools = function() bypassProtection = true; for tool, _ in pairs(S_ProtectedTools) do pcall(function() if tool and tool.Parent then tool:Destroy() end end) end; table.clear(S_ProtectedTools); bypassProtection = false end
 F.getTrueRigType = function(ch) if not ch then return nil end; if ch:FindFirstChild("UpperTorso") then return Enum.HumanoidRigType.R15 end; if ch:FindFirstChild("Torso") then return Enum.HumanoidRigType.R6 end; local hm = ch:FindFirstChildOfClass("Humanoid"); if hm then return hm.RigType end; return nil end
-F.isB = function(n) return S.BD[n] ~= nil end
-F.isI = function(t) return F.isB(t.Name) or t:IsA("Humanoid") or t.Name=="Animate" or t.Name=="Health" or t:IsA("Script") or t:IsA("LocalScript") or t:IsA("ModuleScript") or t:IsA("Shirt") or t:IsA("Pants") or t:IsA("ShirtGraphic") or t:IsA("BodyColors") or t:IsA("CharacterMesh") end
 
-F.sanitizeDescription = function(desc, rt)
-    local d = desc:Clone()
-    if rt == Enum.HumanoidRigType.R6 then
-        pcall(function() d.DepthScale = 1; d.HeadScale = 1; d.HeightScale = 1; d.ProportionScale = 1; d.WidthScale = 1 end)
-    end
-    -- Special heads (Headless Horseman included) stay as they are; d.Head is never forced to 0.
-    local isBadRobloxHead = false
-    return d, isBadRobloxHead
-end
-
-F.mkDummy = function(uid, rt)
-    local dummy = nil
-    pcall(function()
-        local desc
-        if uid == "SAVED" and S.customDesc then
-            desc = S.customDesc
-        else
-            desc = API.description(uid)
-        end
-        if desc then
-            local safeDesc, isBadRobloxHead = F.sanitizeDescription(desc, rt);
-            dummy = API.model(safeDesc, rt);
-            if isBadRobloxHead and dummy then local dh = dummy:FindFirstChild("Head"); if dh then local fc = dh:FindFirstChildOfClass("FaceControls"); if fc then fc:Destroy() end; local sa = dh:FindFirstChildOfClass("SurfaceAppearance"); if sa then sa:Destroy() end; local wt = dh:FindFirstChildOfClass("WrapTarget"); if wt then wt:Destroy() end; if not dh:FindFirstChildWhichIsA("Decal") then local face = Instance.new("Decal"); face.Name = "face"; face.Texture = "rbxasset://textures/face.png"; face.Parent = dh end end end
-        end
-    end)
-    if dummy then dummy.Archivable = true end; return dummy
-end
-F.ensDummy = function(rt) if not S.cD or not S.cD:FindFirstChild("Humanoid") or S.cD:FindFirstChild("Humanoid").RigType ~= rt then if S.cU then S.cD = F.mkDummy(S.cU, rt) end end; return S.cD ~= nil end
 F.resolveAnimationTrackId = function(assetId)
     if not assetId or tonumber(assetId) == 0 then return nil end
     local idNum = tonumber(assetId)
@@ -345,60 +271,6 @@ F.applyAnimationIdsToAnimate = function(ch, desc)
     return applied > 0
 end
 
-F.installClonedAnimate = function(ch, targetAnimate)
-    if not targetAnimate then return false end
-    local myAnimate = ch:FindFirstChild("Animate"); if myAnimate then myAnimate:Destroy() end
-    local newAnimate = targetAnimate:Clone()
-    newAnimate.Parent = ch
-    newAnimate.Enabled = false
-    task.wait()
-    if ch and ch.Parent then newAnimate.Enabled = true end
-    return true
-end
-
-F.copyNativeAnimations = function(ch, targetUid)
-    if not Config.CopyAnimation or not targetUid or targetUid == "SAVED" then return end
-    task.spawn(function()
-        if not ch or not ch.Parent then return end
-        if F.getTrueRigType(ch) ~= Enum.HumanoidRigType.R15 then
-            warn("[Copier Anim] This character is not R15; keeping the game's own animations.")
-            return
-        end
-        local copied = false
-        -- Editing ids in the native Animate keeps replication working. A cloned Animate from another rig
-        -- can stop other players from seeing the animations.
-        local okD, desc = pcall(function() return API.description(targetUid) end)
-        if okD and desc then
-            copied = F.applyAnimationIdsToAnimate(ch, desc)
-            if copied then F.restartAnimate(ch, true) end
-        end
-        if not copied then
-            local okA, appearance = pcall(function() return Players:GetCharacterAppearanceAsync(targetUid) end)
-            if okA and appearance and IsAlive() then
-                copied = F.installClonedAnimate(ch, appearance:FindFirstChild("Animate"))
-                if not copied then warn("[Copier Anim] Method 2 failed: appearance has no Animate script") end
-                pcall(function() appearance:Destroy() end)
-            else
-                warn("[Copier Anim] Method 2 failed: GetCharacterAppearanceAsync is unavailable or returned an error")
-            end
-        end
-        if not copied then
-            for _, plr in ipairs(Players:GetPlayers()) do
-                if plr.UserId == targetUid and plr.Character and F.getTrueRigType(plr.Character) == F.getTrueRigType(ch) then
-                    copied = F.installClonedAnimate(ch, plr.Character:FindFirstChild("Animate"))
-                    if copied then break end
-                end
-            end
-            if not copied then warn("[Copier Anim] Method 3 failed: target is not in this server or has no Animate script") end
-        end
-        if copied then
-            F.restartAnimate(ch, true)
-        else
-            warn("[Copier Anim] This target's animations could not be copied in this game.")
-        end
-    end)
-end
-
 local Appearance = {}
 function Appearance.isBody(part, character)
     return part and part:IsA("BasePart") and part.Parent == character and S.BD[part.Name] ~= nil
@@ -406,199 +278,9 @@ end
 function Appearance.isAvatarAccessory(item)
     if item:GetAttribute("Copier_CopiedItem") then return true end
     if item:FindFirstChildWhichIsA("Script", true) or item:FindFirstChildWhichIsA("LocalScript", true) then return false end
-    -- Not S.ownAccSnapshot: that list also holds game accessories. Unknown items are left to the game.
+    -- Your own avatar's accessory names, not what the character wears now (that includes game items).
+    -- Unknown items are left to the game.
     return S.ownAccNames and S.ownAccNames[item.Name] == true or false
-end
--- capture/restore move game-owned objects aside while a body is swapped out. The current apply path
--- changes parts in place and doesn't call them.
-function Appearance.capture(character, reference)
-    local tx = {Character = character, Bodies = {}, OriginalBodySizes = {}, Roots = {}, Parts = {}, Links = {}, Restored = false}
-    tx.Holder = Instance.new("Folder"); tx.Holder.Name = "Lyra_PreservedObjects"
-    tx.Holder.Parent = workspace.CurrentCamera or workspace
-    local descendants = character:GetDescendants()
-    for _, part in ipairs(character:GetChildren()) do
-        if Appearance.isBody(part, character) then
-            tx.Bodies[part] = part.Name
-            tx.OriginalBodySizes[part.Name] = part.Size
-        end
-    end
-    local roots, preserved = {}, {}
-    local function keep(item)
-        if roots[item] then return end
-        roots[item] = true
-        preserved[item] = true
-        for _, child in ipairs(item:GetDescendants()) do preserved[child] = true end
-    end
-    for _, item in ipairs(character:GetChildren()) do
-        if item:IsA("Accessory") then
-            if not Appearance.isAvatarAccessory(item) then keep(item) end
-        elseif item:IsA("Model") or item:IsA("Tool") or item:IsA("Folder") or (item:IsA("BasePart") and not tx.Bodies[item]) then
-            keep(item)
-        elseif tx.Bodies[item] then
-            local targetBody = reference and reference:FindFirstChild(item.Name)
-            for _, child in ipairs(item:GetChildren()) do
-                local preserve = child:IsA("Model") or child:IsA("Tool") or child:IsA("Folder") or child:IsA("BasePart")
-                    or child:IsA("BillboardGui") or child:IsA("SurfaceGui") or child:IsA("ParticleEmitter")
-                    or child:IsA("Trail") or child:IsA("Beam") or child:IsA("Light") or child:IsA("Fire")
-                    or child:IsA("Smoke") or child:IsA("Sparkles") or child:IsA("LocalScript") or child:IsA("Script")
-                if child:IsA("Attachment") then
-                    -- Keep custom attachments and effect-bearing rig attachments.
-                    preserve = not (targetBody and targetBody:FindFirstChild(child.Name)) or #child:GetChildren() > 0
-                end
-                if preserve then keep(child) end
-            end
-        end
-    end
-    function tx:parentRef(parent)
-        return {Body = self.Bodies[parent], Instance = parent}
-    end
-    function tx:resolveParent(ref)
-        if ref.Body then return self.Character:FindFirstChild(ref.Body) or self.Character end
-        if ref.Instance == self.Character or (ref.Instance and ref.Instance.Parent) then return ref.Instance end
-        return self.Character
-    end
-    function tx:endpoint(part)
-        return {Body = self.Bodies[part], Instance = part}
-    end
-    function tx:resolveEndpoint(ref)
-        if ref.Body then return self.Character:FindFirstChild(ref.Body) end
-        return ref.Instance
-    end
-    for item in pairs(roots) do
-        local parent = item.Parent; local nested = false
-        while parent and parent ~= character do if roots[parent] then nested = true; break end; parent = parent.Parent end
-        if not nested then
-            table.insert(tx.Roots, {
-                Object = item,
-                Parent = tx:parentRef(item.Parent),
-                OriginalCFrame = item:IsA("Attachment") and item.CFrame or nil,
-            })
-        end
-    end
-    for _, item in ipairs(descendants) do
-        if item:IsA("JointInstance") or item:IsA("WeldConstraint") then
-            local p0, p1 = item.Part0, item.Part1
-            if (tx.Bodies[p0] and preserved[p1]) or (tx.Bodies[p1] and preserved[p0]) then
-                local row = {Object = item, Parent = tx:parentRef(item.Parent), P0 = tx:endpoint(p0), P1 = tx:endpoint(p1)}
-                if item:IsA("JointInstance") then row.C0 = item.C0; row.C1 = item.C1 end
-                pcall(function() row.Enabled = item.Enabled end)
-                pcall(function() row.Backup = item:Clone() end)
-                table.insert(tx.Links, row)
-            end
-        elseif item:IsA("Constraint") then
-            pcall(function()
-                local a0, a1 = item.Attachment0, item.Attachment1
-                if a0 and a1 and ((tx.Bodies[a0.Parent] and preserved[a1.Parent]) or (tx.Bodies[a1.Parent] and preserved[a0.Parent])) then
-                    local function attachmentRef(a) return {Parent = tx:parentRef(a.Parent), Name = a.Name, Object = a, CFrame = a.CFrame} end
-                    local row = {Object = item, Parent = tx:parentRef(item.Parent), A0 = attachmentRef(a0), A1 = attachmentRef(a1), Enabled = item.Enabled}
-                    pcall(function() row.Backup = item:Clone() end); table.insert(tx.Links, row)
-                end
-            end)
-        end
-    end
-    -- Offsets have to be recorded before any joint changes.
-    for _, row in ipairs(tx.Links) do
-        if row.P0 then
-            local body = row.P0.Body and row.P0.Instance or row.P1.Instance
-            local extra = row.P0.Body and row.P1.Instance or row.P0.Instance
-            if extra and body then tx.Parts[extra] = {Body = body.Name, Offset = body.CFrame:ToObjectSpace(extra.CFrame), Anchored = extra.Anchored} end
-        end
-    end
-    for _, row in ipairs(tx.Roots) do
-        local anchor = row.Parent.Body and character:FindFirstChild(row.Parent.Body) or character:FindFirstChild("HumanoidRootPart")
-        local objects = row.Object:GetDescendants(); table.insert(objects, row.Object)
-        for _, part in ipairs(objects) do
-            if part:IsA("BasePart") and not tx.Parts[part] and anchor then
-                tx.Parts[part] = {Body = anchor.Name, Offset = anchor.CFrame:ToObjectSpace(part.CFrame), Anchored = part.Anchored}
-            end
-        end
-    end
-    for _, row in ipairs(tx.Links) do pcall(function() row.Object.Parent = tx.Holder end) end
-    for _, row in ipairs(tx.Roots) do row.Object.Parent = tx.Holder end
-    return tx
-end
--- MM2 hangs its waist displays on LowerTorso.GunBelt/KnifeBelt with offsets in local studs that
--- don't scale with the torso. Keeps the gap that was visible before the body changed (used by restore).
-function Appearance.preserveBeltSurfaceGap(attachment, originalCFrame, oldSize, newSize)
-    if not attachment or not originalCFrame or not oldSize or not newSize then return end
-    if attachment.Name ~= "GunBelt" and attachment.Name ~= "KnifeBelt" then return end
-    local p = originalCFrame.Position
-    local oldHalf, newHalf = oldSize * 0.5, newSize * 0.5
-    local function axis(value, before, after)
-        local absolute = math.abs(value)
-        if absolute <= before then return value end
-        local sign = value < 0 and -1 or 1
-        return sign * (after + absolute - before)
-    end
-    local adjusted = Vector3.new(
-        axis(p.X, oldHalf.X, newHalf.X),
-        axis(p.Y, oldHalf.Y, newHalf.Y),
-        axis(p.Z, oldHalf.Z, newHalf.Z)
-    )
-    attachment.CFrame = CFrame.new(adjusted) * (originalCFrame - p)
-end
-function Appearance.restore(tx)
-    if not tx or tx.Restored then return end
-    tx.Restored = true
-    local failures = {}
-    for _, row in ipairs(tx.Roots) do
-        local ok = pcall(function()
-            local parent=tx:resolveParent(row.Parent)
-            local existing=parent:FindFirstChild(row.Object.Name)
-            if row.Object:IsA("Attachment") and existing and existing~=row.Object and existing:IsA("Attachment") then
-                if row.Parent.Body then
-                    Appearance.preserveBeltSurfaceGap(existing, row.OriginalCFrame, tx.OriginalBodySizes[row.Parent.Body], parent.Size)
-                end
-                -- Keep one rig attachment; only the game's effects move over.
-                for _,effect in ipairs(row.Object:GetChildren()) do effect.Parent=existing end
-                row.Object:Destroy()
-            else
-                row.Object.Parent=parent
-                if row.Object:IsA("Attachment") and row.Parent.Body then
-                    Appearance.preserveBeltSurfaceGap(row.Object, row.OriginalCFrame, tx.OriginalBodySizes[row.Parent.Body], parent.Size)
-                end
-                if row.Object:IsA("BillboardGui") or row.Object:IsA("SurfaceGui") then
-                    local adornee=row.Object.Adornee
-                    if tx.Bodies[adornee] then row.Object.Adornee=tx.Character:FindFirstChild(tx.Bodies[adornee]) end
-                end
-            end
-        end)
-        if not ok then table.insert(failures, row.Object.Name) end
-    end
-    for part, row in pairs(tx.Parts) do
-        local body = tx.Character:FindFirstChild(row.Body)
-        if body then pcall(function() part.CFrame = body.CFrame * row.Offset; part.Anchored = row.Anchored end) end
-    end
-    for _, row in ipairs(tx.Links) do
-        local joint = row.Object
-        local function reconnect(object)
-            if row.P0 then
-                object.Part0 = tx:resolveEndpoint(row.P0); object.Part1 = tx:resolveEndpoint(row.P1)
-                if row.C0 then object.C0 = row.C0; object.C1 = row.C1 end
-                assert(object.Part0 and object.Part1, "Connection has no target part")
-            else
-                local function attachment(ref)
-                    local parent = tx:resolveParent(ref.Parent)
-                    if ref.Object.Parent == parent then return ref.Object end
-                    local current = parent:FindFirstChild(ref.Name)
-                    if current and current:IsA("Attachment") then return current end
-                    local created = Instance.new("Attachment"); created.Name = ref.Name; created.CFrame = ref.CFrame; created.Parent = parent
-                    return created
-                end
-                object.Attachment0 = attachment(row.A0); object.Attachment1 = attachment(row.A1)
-            end
-            if row.Enabled ~= nil then pcall(function() object.Enabled = row.Enabled end) end
-            object.Parent = tx:resolveParent(row.Parent)
-        end
-        local ok = pcall(reconnect, joint)
-        if not ok and row.Backup then joint = row.Backup; ok = pcall(reconnect, joint) end
-        if row.Backup and row.Backup ~= joint then row.Backup:Destroy() end
-        if not ok then table.insert(failures, row.Object.Name) end
-    end
-    -- Never destroy game objects left in the holder after an error.
-    for _, orphan in ipairs(tx.Holder:GetChildren()) do pcall(function() orphan.Parent = tx.Character end) end
-    tx.Holder:Destroy()
-    return #failures == 0, failures
 end
 
 function Appearance.attach(character, accessory)
@@ -887,12 +569,7 @@ function Appearance.apply(character, sourceModel)
     end
     return report
 end
-F.aAc = function(character, accessory) return Appearance.attach(character, accessory) end
 F.aAv = function(character, model) return Appearance.apply(character, model) end
-
-F.rDsp = function(u, f) if u == "SAVED" then return "Custom Avatar" end; local ok, i = pcall(function() return US:GetUserInfosByUserIdsAsync({u}) end); if ok and i and i[1] then local d = i[1].DisplayName; return (d and d ~= "" and d ~= i[1].Username) and d or i[1].Username end; return f end
-F.spoofGameEvents = function(ch) if not Config.SpoofGameEvents then return end; if not ch or not getconnections then return end; pcall(function() for _, conn in ipairs(getconnections(lp.CharacterAdded)) do if type(conn.Function) == "function" then task.spawn(conn.Function, ch) end end end); pcall(function() for _, conn in ipairs(getconnections(lp.CharacterAppearanceLoaded)) do if type(conn.Function) == "function" then task.spawn(conn.Function, ch) end end end) end
-F.updateNameSpoofInRealTime = function() local ch = lp.Character; if not ch then return end; local hm = ch:FindFirstChildOfClass("Humanoid"); if hm and hm.DisplayName ~= lp.DisplayName then pcall(function() hm.DisplayName = lp.DisplayName end) end end
 
 -- Other players only see what the local Animator actually plays. An Animation edited in place keeps
 -- serving cached tracks, and restarting Animate before the asset loads sends the first Play too early.
@@ -980,18 +657,7 @@ F.restartAnimate = function(ch, resync)
     end)
 end
 
-F.spoofHD = function(ch, uid)
-    local hm = ch:FindFirstChildOfClass("Humanoid"); if not hm then return end; local desc; local ok = pcall(function() desc = API.description(uid) end); if ok and desc then for _, v in ipairs(hm:GetChildren()) do if v:IsA("HumanoidDescription") then v:Destroy() end end; local newDesc = desc:Clone(); newDesc.Name = "HumanoidDescription"; newDesc.Parent = hm end
-end
-
-F.fixCam = function()
-    local cm = workspace.CurrentCamera; local ch = lp.Character; if not cm or not ch then return end; local hm = ch:FindFirstChildOfClass("Humanoid"); local hrp = ch:FindFirstChild("HumanoidRootPart") or ch:FindFirstChild("Head"); if not hrp then return end; local isStuck = false; if not cm.CameraSubject or not cm.CameraSubject:IsDescendantOf(workspace) then isStuck = true end; if cm.CameraSubject ~= hm and cm.CameraSubject ~= hrp then isStuck = true end; if (cm.CFrame.Position - hrp.Position).Magnitude > 100 then isStuck = true end; if cm.CFrame.X ~= cm.CFrame.X then isStuck = true end; if not isStuck then S.strictCamEnd = 0; return end; pcall(function() S.strictCamEnd = os.clock() + 0.5; cm.CameraType = Enum.CameraType.Custom; cm.CameraSubject = hm or hrp; if hm then hm.CameraOffset = Vector3.zero end; local lookDir = hrp.CFrame.LookVector; cm.CFrame = CFrame.lookAt(hrp.Position - (lookDir * 12) + Vector3.new(0, 5, 0), hrp.Position) end)
-end
-
-F.getCamScripts = function() local scripts = {}; local function check(v) if v:IsA("LocalScript") then local name = tostring(v.Name):lower(); if name:find("camera") or name:find("cam") then table.insert(scripts, v) end end end; if lp.Character then for _, v in ipairs(lp.Character:GetDescendants()) do check(v) end end; return scripts end
-F.suspendCamScripts = function() table.clear(S.suspendedCamScripts); pcall(function() for _, s in ipairs(F.getCamScripts()) do if s.Enabled then s.Enabled = false; table.insert(S.suspendedCamScripts, s) end end end) end
 F.resumeCamScripts = function() for _, s in ipairs(S.suspendedCamScripts) do pcall(function() s.Enabled = true end) end; table.clear(S.suspendedCamScripts) end
-F.lockCamera = function(subject, camType) S.lockedCamSubject = subject; S.lockedCamType = camType or Enum.CameraType.Custom; S.cameraLockActive = true; local cam = workspace.CurrentCamera; if cam then pcall(function() cam.CameraType = S.lockedCamType; cam.CameraSubject = S.lockedCamSubject end) end end
 F.unlockCamera = function() S.cameraLockActive = false; S.lockedCamSubject = nil; S.lockedCamType = nil end
 RegisterConnection(RS.RenderStepped:Connect(function() if S.cameraLockActive and S.lockedCamSubject then local cam = workspace.CurrentCamera; if cam then pcall(function() if cam.CameraSubject ~= S.lockedCamSubject then cam.CameraSubject = S.lockedCamSubject end; if cam.CameraType ~= S.lockedCamType then cam.CameraType = S.lockedCamType end end) end end end))
 
@@ -1019,12 +685,6 @@ RegisterConnection(lp.CharacterRemoving:Connect(function() if S.freeCamActive th
 F.ensureTagsVisible = function(head) if not head then return end; for _, gui in ipairs(head:GetChildren()) do if gui:IsA("BillboardGui") or gui:IsA("SurfaceGui") then gui.Enabled = true; for _, child in ipairs(gui:GetDescendants()) do if child:IsA("TextLabel") or child:IsA("TextBox") then child.Visible = true; child.TextTransparency = 0; if child.BackgroundTransparency ~= 1 then child.BackgroundTransparency = 0 end elseif child:IsA("ImageLabel") then child.Visible = true; child.ImageTransparency = 0 end end end end end
 F.scanYourOriginalTags = function(ch) if S.hasSavedOriginalTags then return end; if not ch then return end; local head = ch:FindFirstChild("Head"); if not head then return end; table.clear(S.originalTags); local foundTags = false; for _, child in ipairs(head:GetChildren()) do if child:IsA("BillboardGui") or child:IsA("SurfaceGui") then pcall(function() child.Archivable = true; table.insert(S.originalTags, child:Clone()); foundTags = true end) end end; if foundTags then S.hasSavedOriginalTags = true end end
 F.ensureOriginalTagsScanned = function(ch) if S.hasSavedOriginalTags then return end; if not ch then return end; F.scanYourOriginalTags(ch); if not S.hasSavedOriginalTags then local head = ch:WaitForChild("Head", 5); if not head then return end; local conn; conn = head.ChildAdded:Connect(function(child) if child:IsA("BillboardGui") or child:IsA("SurfaceGui") then task.wait(0.1); if not S.hasSavedOriginalTags and head.Parent then F.scanYourOriginalTags(ch); if S.hasSavedOriginalTags and conn then conn:Disconnect() end end end end); RegisterConnection(conn); task.delay(3, function() if conn then conn:Disconnect() end end) end end
-F.applyPreservedTags = function(ch) if not Config.RestoreYourTagAfterRespawn or #S.originalTags == 0 then return end; local head = ch:WaitForChild("Head", 5); if not head then return end; for _, child in ipairs(head:GetChildren()) do if child:IsA("BillboardGui") or child:IsA("SurfaceGui") then pcall(function() child:Destroy() end) end end; for _, tag in ipairs(S.originalTags) do pcall(function() local restored = tag:Clone(); restored.Parent = head; if restored:IsA("BillboardGui") then restored.Adornee = head end end) end; F.ensureTagsVisible(head); F.updateNameSpoofInRealTime(); task.spawn(function() task.wait(0.2); F.bindTagToLeaderstats(ch) end) end
-F.ensureTagDurability = function(ch) if S.tagWatcherConnection then pcall(function() S.tagWatcherConnection:Disconnect() end); S.tagWatcherConnection = nil end; local head = ch:WaitForChild("Head", 5); if not head then return end; S.tagWatcherConnection = RegisterConnection(head.ChildRemoved:Connect(function(child) if child:IsA("BillboardGui") or child:IsA("SurfaceGui") then task.wait(0.1); if ch and ch.Parent and head and head.Parent and IsAlive() then F.applyPreservedTags(ch) end end end)); task.spawn(function() while ch and ch.Parent and IsAlive() do local currentHead = ch:FindFirstChild("Head"); if currentHead then F.ensureTagsVisible(currentHead); F.updateNameSpoofInRealTime() end; task.wait(0.5) end end) end
-F.restoreOriginalTags = function(ch) if not ch then return end; local head = ch:WaitForChild("Head", 5); if not head then return end; if S.tagWatcherConnection then pcall(function() S.tagWatcherConnection:Disconnect() end); S.tagWatcherConnection = nil end; for _, conn in ipairs(S.leaderstatConnections or {}) do pcall(function() conn:Disconnect() end) end; S.leaderstatConnections = {}; for _, child in ipairs(head:GetChildren()) do if child:IsA("BillboardGui") or child:IsA("SurfaceGui") then pcall(function() child:Destroy() end) end end; for _, tag in ipairs(S.originalTags or {}) do pcall(function() local restored = tag:Clone(); restored.Parent = head; if restored:IsA("BillboardGui") then restored.Adornee = head end end) end; F.ensureTagsVisible(head) end
-F.formatNumberWithCommas = function(value) local formatted = tostring(value); local k; while true do formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2'); if k == 0 then break end end; return formatted end
-F.bindTagToLeaderstats = function(ch) if not ch then return end; local head = ch:WaitForChild("Head", 5); if not head then return end; for _, conn in ipairs(S.leaderstatConnections or {}) do pcall(function() conn:Disconnect() end) end; S.leaderstatConnections = {}; local leaderstats = lp:FindFirstChild("leaderstats"); if not leaderstats then return end; for _, gui in ipairs(head:GetChildren()) do if gui:IsA("BillboardGui") or gui:IsA("SurfaceGui") then for _, label in ipairs(gui:GetDescendants()) do if label:IsA("TextLabel") or label:IsA("TextBox") then local text = tostring(label.Text); local textLower = string.lower(text); local isPriceOrStat = string.match(text, "%d+") and (string.find(textLower, "price") or string.find(textLower, "cost") or string.find(textLower, "raised") or string.find(textLower, "donated") or string.find(textLower, "value") or string.find(textLower, "cash") or string.find(textLower, "money") or string.find(textLower, "robux") or string.find(textLower, "points") or string.find(textLower, "coins") or string.find(textLower, "level") or string.find(textLower, "lvl") or string.find(textLower, "stage")); if isPriceOrStat then local matchedStat = nil; for _, stat in ipairs(leaderstats:GetChildren()) do if stat:IsA("ValueObject") and string.find(textLower, string.lower(tostring(stat.Name))) then matchedStat = stat; break end end; if not matchedStat then for _, stat in ipairs(leaderstats:GetChildren()) do if stat:IsA("IntValue") or stat:IsA("NumberValue") then matchedStat = stat; break end end end; if matchedStat then local startPos, endPos = string.find(text, "%d[%d%s,%.]*"); if startPos and endPos then local prefix = string.sub(text, 1, startPos - 1); local suffix = string.sub(text, endPos + 1); local function updateLabelText() pcall(function() label.Text = prefix .. F.formatNumberWithCommas(matchedStat.Value) .. suffix end) end; updateLabelText(); table.insert(S.leaderstatConnections, RegisterConnection(matchedStat.Changed:Connect(updateLabelText))) end end end end end end end end
-
 
 -- HumanoidDescription <-> plain table (format v2). Older flat tables still decode.
 local Codec = {}
@@ -2973,7 +2633,6 @@ _G.Copier_ToolsGiverToggle = function()
     App.report(_G.ToolsGiverActive and "ToolsGiver enabled." or "ToolsGiver disabled.", "info")
 end
 
-
 -- Toast notifier. Self-contained (TweenService, TextService and its own instances); the options are
 -- documented in docs/reference/development.md.
 local Toast = {}
@@ -4420,8 +4079,6 @@ function UI.query(raw,immediate)
         UI.refresh(); App.report("Preview ready. Tap Apply avatar when you are ready.","success")
     end)
 end
-
-
 
 function UI.clearRows(key, container)
     for _,connection in ipairs(UI.Rows[key] or {}) do connection:Disconnect() end

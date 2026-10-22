@@ -38,7 +38,7 @@ A skin longer than 250,000 characters is never shared; you appear as if wearing 
 
 Skins of the other users in the same Roblox server, which are:
 
-- **checked like an imported share code** ([`Visual.validate`](../../src/avatar-copier.lua#L1317-L1352) and [`Codec.decode`](../../src/avatar-copier.lua#L1069-L1139)), and refused when anything is out of range;
+- **checked like an imported share code** ([`Visual.validate`](../../src/avatar-copier.lua#L977-L1012) and [`Codec.decode`](../../src/avatar-copier.lua#L729-L799)), and refused when anything is out of range;
 - **drawn as a separate local model** over the player's character ([Overlay](../reference/architecture.md#overlays)), so nobody's real character is ever changed;
 - seen **only by you**. Players without the script see nothing different.
 
@@ -75,15 +75,15 @@ The full request and reply formats are in [Data formats](../reference/data-forma
 
 | Part | Code | What it does |
 | --- | --- | --- |
-| The address | [`Sync.Url`](../../src/avatar-copier.lua#L6277) | Read from `Config.SyncUrl`. |
-| On or off | [`Sync.enabled`](../../src/avatar-copier.lua#L6283-L6285) | Every condition listed above. |
-| One request | [`Sync.call`](../../src/avatar-copier.lua#L6286-L6292) | POSTs JSON with the executor's `request`; ignores anything that isn't JSON. |
-| Your skin | [`Sync.mine`](../../src/avatar-copier.lua#L6299-L6309), [`Sync.hash`](../../src/avatar-copier.lua#L6294-L6298) | The JSON of what you wear and its FNV-1a hash. |
-| Heartbeat | [`Sync.beat`](../../src/avatar-copier.lua#L6321-L6340) | Sends your hash, resends with data when asked, reads the peer list. |
-| Drawing others | [`Sync.draw`](../../src/avatar-copier.lua#L6341-L6377) | Fetches new skins and attaches overlays. |
-| Checking a skin | [`Sync.decode`](../../src/avatar-copier.lua#L6311-L6320) | Size limit, JSON, `Visual.validate`, `Codec.decode`. |
-| The loop | [`Sync.start`](../../src/avatar-copier.lua#L6378-L6397) | Runs every 2 s while the script is alive. |
-| Leaving | [`Sync.stop`](../../src/avatar-copier.lua#L6399-L6403), [`Sync.close`](../../src/avatar-copier.lua#L6404) | Clears the overlays and sends `leave`. |
+| The address | [`Sync.Url`](../../src/avatar-copier.lua#L5934) | Read from `Config.SyncUrl`. |
+| On or off | [`Sync.enabled`](../../src/avatar-copier.lua#L5940-L5942) | Every condition listed above. |
+| One request | [`Sync.call`](../../src/avatar-copier.lua#L5943-L5949) | POSTs JSON with the executor's `request`; ignores anything that isn't JSON. |
+| Your skin | [`Sync.mine`](../../src/avatar-copier.lua#L5956-L5966), [`Sync.hash`](../../src/avatar-copier.lua#L5951-L5955) | The JSON of what you wear and its FNV-1a hash. |
+| Heartbeat | [`Sync.beat`](../../src/avatar-copier.lua#L5978-L5997) | Sends your hash, resends with data when asked, reads the peer list. |
+| Drawing others | [`Sync.draw`](../../src/avatar-copier.lua#L5998-L6034) | Fetches new skins and attaches overlays. |
+| Checking a skin | [`Sync.decode`](../../src/avatar-copier.lua#L5968-L5977) | Size limit, JSON, `Visual.validate`, `Codec.decode`. |
+| The loop | [`Sync.start`](../../src/avatar-copier.lua#L6035-L6054) | Runs every 2 s while the script is alive. |
+| Leaving | [`Sync.stop`](../../src/avatar-copier.lua#L6056-L6060), [`Sync.close`](../../src/avatar-copier.lua#L6061) | Clears the overlays and sends `leave`. |
 
 ### Nothing runs without an address
 

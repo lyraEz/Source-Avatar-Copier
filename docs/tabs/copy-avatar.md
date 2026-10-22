@@ -67,17 +67,17 @@ flowchart TD
 
 | Part | Code | What it does |
 | --- | --- | --- |
-| The page | [`UI.buildAvatar`](../../src/avatar-copier.lua#L4254-L4312) | Creates the search box, the preview card, the profile card and the timeline, and connects dragging and zooming. |
-| Searching | [`UI.query`](../../src/avatar-copier.lua#L4378-L4422) | Waits 0.6 s, cancels older searches with a token, gives up after 25 s, then builds the preview. |
-| Finding the user | [`App.resolve`](../../src/avatar-copier.lua#L1801-L1839) | Checks the text, looks in the server, asks Roblox for the id, name, display name and avatar, and caches the result. |
-| Preparing the 3D model | [`UI.preparePreview`](../../src/avatar-copier.lua#L4336-L4361) | Removes scripts, anchors the root, turns off collisions and reconnects loose parts. |
-| The camera | [`UI.camera`](../../src/avatar-copier.lua#L4314-L4322) | Frames the model from its size, the rotation, the tilt and the zoom. |
-| Image fallback | [`UI.previewFallback`](../../src/avatar-copier.lua#L4368-L4376) | Shows the Roblox avatar picture when the 3D model can't be built. |
-| Apply | [`App.applyPreview`](../../src/avatar-copier.lua#L2142-L2147) | Turns the previewed profile into a snapshot and hands it to `App.applySnapshot`. |
-| The one apply path | [`App.applySnapshot`](../../src/avatar-copier.lua#L1994-L2141) | Builds the avatar, checks your character after every wait and changes it. Explained in [Architecture](../reference/architecture.md#applying-a-snapshot). |
-| Undo, timeline, Restore | [`App.undo`](../../src/avatar-copier.lua#L2148-L2150), [`App.jump`](../../src/avatar-copier.lua#L2151-L2154), [`App.restore`](../../src/avatar-copier.lua#L2165-L2167) | Apply an earlier snapshot with the mode `undo`, `history` or `restore`. |
-| Drawing the timeline | [`UI.renderTimeline`](../../src/avatar-copier.lua#L5620-L5655) | One picture per snapshot; skipped when nothing changed. |
-| Buttons on and off | [`UI.refresh`](../../src/avatar-copier.lua#L5656-L5670) | Enables Apply, Undo, Restore and Customize only when they can do something. |
+| The page | [`UI.buildAvatar`](../../src/avatar-copier.lua#L3913-L3971) | Creates the search box, the preview card, the profile card and the timeline, and connects dragging and zooming. |
+| Searching | [`UI.query`](../../src/avatar-copier.lua#L4037-L4081) | Waits 0.6 s, cancels older searches with a token, gives up after 25 s, then builds the preview. |
+| Finding the user | [`App.resolve`](../../src/avatar-copier.lua#L1461-L1499) | Checks the text, looks in the server, asks Roblox for the id, name, display name and avatar, and caches the result. |
+| Preparing the 3D model | [`UI.preparePreview`](../../src/avatar-copier.lua#L3995-L4020) | Removes scripts, anchors the root, turns off collisions and reconnects loose parts. |
+| The camera | [`UI.camera`](../../src/avatar-copier.lua#L3973-L3981) | Frames the model from its size, the rotation, the tilt and the zoom. |
+| Image fallback | [`UI.previewFallback`](../../src/avatar-copier.lua#L4027-L4035) | Shows the Roblox avatar picture when the 3D model can't be built. |
+| Apply | [`App.applyPreview`](../../src/avatar-copier.lua#L1802-L1807) | Turns the previewed profile into a snapshot and hands it to `App.applySnapshot`. |
+| The one apply path | [`App.applySnapshot`](../../src/avatar-copier.lua#L1654-L1801) | Builds the avatar, checks your character after every wait and changes it. Explained in [Architecture](../reference/architecture.md#applying-a-snapshot). |
+| Undo, timeline, Restore | [`App.undo`](../../src/avatar-copier.lua#L1808-L1810), [`App.jump`](../../src/avatar-copier.lua#L1811-L1814), [`App.restore`](../../src/avatar-copier.lua#L1825-L1827) | Apply an earlier snapshot with the mode `undo`, `history` or `restore`. |
+| Drawing the timeline | [`UI.renderTimeline`](../../src/avatar-copier.lua#L5277-L5312) | One picture per snapshot; skipped when nothing changed. |
+| Buttons on and off | [`UI.refresh`](../../src/avatar-copier.lua#L5313-L5327) | Enables Apply, Undo, Restore and Customize only when they can do something. |
 
 ### The search waits for you to stop typing
 
@@ -137,8 +137,8 @@ After a successful change, the look you had before goes into `App.History`. Undo
 | --- | --- |
 | `Players:GetUserIdFromNameAsync`, `Players:GetNameFromUserIdAsync` | Turning a name into an id and back |
 | `UserService:GetUserInfosByUserIdsAsync` | The display name |
-| `Players:GetHumanoidDescriptionFromUserIdAsync` | The avatar ([`API.description`](../../src/avatar-copier.lua#L122-L127)) |
-| `Players:CreateHumanoidModelFromDescriptionAsync` | The 3D model ([`API.model`](../../src/avatar-copier.lua#L128-L133)) |
+| `Players:GetHumanoidDescriptionFromUserIdAsync` | The avatar ([`API.description`](../../src/avatar-copier.lua#L119-L124)) |
+| `Players:CreateHumanoidModelFromDescriptionAsync` | The 3D model ([`API.model`](../../src/avatar-copier.lua#L125-L130)) |
 | `ViewportFrame`, `WorldModel`, `Camera` | Showing the model inside the window |
 | `rbxthumb://type=AvatarHeadShot` and `type=Avatar` | The small picture and the image fallback |
 

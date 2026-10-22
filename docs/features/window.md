@@ -61,20 +61,20 @@ When the Roblox menu shortcut reopens the window, a notification says so and off
 
 | Part | Code | What it does |
 | --- | --- | --- |
-| Building the window | [`UI.buildShell`](../../src/avatar-copier.lua#L3817-L3885) | The `ScreenGui`, header, buttons, side menu, status line, floating button and blur. |
-| Layout | [`UI.layout`](../../src/avatar-copier.lua#L3923-L4028) | Sizes everything from the screen, the interface size and the saved window size. |
-| Interface size | [`UI.scale`](../../src/avatar-copier.lua#L3917-L3922) | The `UIScale` value. |
-| Moving | [`UI.drag`](../../src/avatar-copier.lua#L3886-L3914) | Dragging the header and the floating button, kept inside the screen. |
-| Resizing | [`UI.buildResizeGrip`](../../src/avatar-copier.lua#L4058-L4104) | The grip and the "820 × 600" badge while you drag. |
-| Switching tabs | [`UI.selectTab`](../../src/avatar-copier.lua#L4242-L4252) | Shows one page and refreshes it. |
-| Show / hide | [`UI.setVisible`](../../src/avatar-copier.lua#L4184-L4241) | The flight to and from the floating button. Calling it twice does nothing. |
-| Close button | [`UI.closeHub`](../../src/avatar-copier.lua#L4147-L4165) | The lock-out checks described above. |
-| Reopen methods | [`UI.reopenMethods`](../../src/avatar-copier.lua#L4121-L4127), [`UI.canReopen`](../../src/avatar-copier.lua#L4128) | Which ways back work right now. |
-| Menu shortcut | [`UI.watchMenu`](../../src/avatar-copier.lua#L5786-L5804), [`UI.menuReopen`](../../src/avatar-copier.lua#L5774-L5785) | Counts menu open/close pairs while hidden. |
-| Blur and glass | [`UI.effects`](../../src/avatar-copier.lua#L4105-L4110) | Background blur, transparency, floating button visibility. |
-| Status line | [the status handler](../../src/avatar-copier.lua#L6440 "App.Notify=function(message,kind)") | Colours the dot and text by message kind. |
-| Notifications | [`Toast.new`](../../src/avatar-copier.lua#L2992-L3018), [`Toast:Notify`](../../src/avatar-copier.lua#L3054-L3157) | A self-contained component; its options are in [Development](../reference/development.md#toast-notifier). |
-| Dialogs | [`UI.buildModal`](../../src/avatar-copier.lua#L5577-L5586), [`UI.confirm`](../../src/avatar-copier.lua#L5588-L5603) | Title, text, Cancel and Confirm, with an optional countdown. |
+| Building the window | [`UI.buildShell`](../../src/avatar-copier.lua#L3476-L3544) | The `ScreenGui`, header, buttons, side menu, status line, floating button and blur. |
+| Layout | [`UI.layout`](../../src/avatar-copier.lua#L3582-L3687) | Sizes everything from the screen, the interface size and the saved window size. |
+| Interface size | [`UI.scale`](../../src/avatar-copier.lua#L3576-L3581) | The `UIScale` value. |
+| Moving | [`UI.drag`](../../src/avatar-copier.lua#L3545-L3573) | Dragging the header and the floating button, kept inside the screen. |
+| Resizing | [`UI.buildResizeGrip`](../../src/avatar-copier.lua#L3717-L3763) | The grip and the "820 × 600" badge while you drag. |
+| Switching tabs | [`UI.selectTab`](../../src/avatar-copier.lua#L3901-L3911) | Shows one page and refreshes it. |
+| Show / hide | [`UI.setVisible`](../../src/avatar-copier.lua#L3843-L3900) | The flight to and from the floating button. Calling it twice does nothing. |
+| Close button | [`UI.closeHub`](../../src/avatar-copier.lua#L3806-L3824) | The lock-out checks described above. |
+| Reopen methods | [`UI.reopenMethods`](../../src/avatar-copier.lua#L3780-L3786), [`UI.canReopen`](../../src/avatar-copier.lua#L3787) | Which ways back work right now. |
+| Menu shortcut | [`UI.watchMenu`](../../src/avatar-copier.lua#L5443-L5461), [`UI.menuReopen`](../../src/avatar-copier.lua#L5431-L5442) | Counts menu open/close pairs while hidden. |
+| Blur and glass | [`UI.effects`](../../src/avatar-copier.lua#L3764-L3769) | Background blur, transparency, floating button visibility. |
+| Status line | [the status handler](../../src/avatar-copier.lua#L6097 "App.Notify=function(message,kind)") | Colours the dot and text by message kind. |
+| Notifications | [`Toast.new`](../../src/avatar-copier.lua#L2651-L2677), [`Toast:Notify`](../../src/avatar-copier.lua#L2713-L2816) | A self-contained component; its options are in [Development](../reference/development.md#toast-notifier). |
+| Dialogs | [`UI.buildModal`](../../src/avatar-copier.lua#L5234-L5243), [`UI.confirm`](../../src/avatar-copier.lua#L5245-L5260) | Title, text, Cancel and Confirm, with an optional countdown. |
 
 ### The side menu follows the window width
 

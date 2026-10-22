@@ -38,11 +38,11 @@ Keyboard shortcuts and chat commands that work while the script runs, even with 
 
 | Part | Code | What it does |
 | --- | --- | --- |
-| The key handler | [the `InputBegan` handler](../../src/avatar-copier.lua#L1008-L1014 "RegisterConnection(UIS.InputBegan:Connect(function(input, processed)") | <kbd>L</kbd>, <kbd>K</kbd>, <kbd>R</kbd> and <kbd>V</kbd>, plus the arrow keys and right mouse button for the free camera. |
-| Free camera | [`F.enableFreeCam`](../../src/avatar-copier.lua#L998-L1002), [`F.disableFreeCam`](../../src/avatar-copier.lua#L1004-L1006) | Anchors your root part, binds the `CopierFreeCam` render step, gives the camera back. |
-| Hide interface | [`F.ToggleUI`](../../src/avatar-copier.lua#L216-L239) | Remembers which interfaces were on and restores exactly those. |
-| ToolsGiver | [`F.startToolsGiverLoop`](../../src/avatar-copier.lua#L244), [the toggle](../../src/avatar-copier.lua#L2973 "ToolsGiver enabled.") | The 1.5 s scan, and the on/off switch with its status message. |
-| Window key and chat | [`UI.inputs`](../../src/avatar-copier.lua#L5805-L5854) | The hub shortcut, the key capture in Settings and every chat command. |
+| The key handler | [the `InputBegan` handler](../../src/avatar-copier.lua#L674-L680 "RegisterConnection(UIS.InputBegan:Connect(function(input, processed)") | <kbd>L</kbd>, <kbd>K</kbd>, <kbd>R</kbd> and <kbd>V</kbd>, plus the arrow keys and right mouse button for the free camera. |
+| Free camera | [`F.enableFreeCam`](../../src/avatar-copier.lua#L664-L668), [`F.disableFreeCam`](../../src/avatar-copier.lua#L670-L672) | Anchors your root part, binds the `CopierFreeCam` render step, gives the camera back. |
+| Hide interface | [`F.ToggleUI`](../../src/avatar-copier.lua#L177-L200) | Remembers which interfaces were on and restores exactly those. |
+| ToolsGiver | [`F.startToolsGiverLoop`](../../src/avatar-copier.lua#L203), [the toggle](../../src/avatar-copier.lua#L2633 "ToolsGiver enabled.") | The 1.5 s scan, and the on/off switch with its status message. |
+| Window key and chat | [`UI.inputs`](../../src/avatar-copier.lua#L5462-L5511) | The hub shortcut, the key capture in Settings and every chat command. |
 
 ### One function reads every chat message
 

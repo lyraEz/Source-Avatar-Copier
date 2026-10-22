@@ -74,19 +74,19 @@ The tests can't tell how a game reacts. Before a release, try at least:
 
 | To change | Look at |
 | --- | --- |
-| A startup option or hotkey | [`Config`](../../src/avatar-copier.lua#L8-L29) at the top ([Configuration](configuration.md)) |
-| A setting | Its default in [`Store.Settings`](../../src/avatar-copier.lua#L1584-L1586), its switch in [`UI.buildSettings`](../../src/avatar-copier.lua#L5105-L5150) ([`UI.toggle`](../../src/avatar-copier.lua#L5048-L5061)), and [Settings](../tabs/settings.md) |
-| A setting range | [`Store.SettingRanges`](../../src/avatar-copier.lua#L1588) or [`Store.AutoRanges`](../../src/avatar-copier.lua#L1597), and the stepper values in [`UI.buildSettings`](../../src/avatar-copier.lua#L5105-L5150) / [`UI.buildAuto`](../../src/avatar-copier.lua#L5228-L5302) |
-| A tab | A `UI.build<Name>` function, the tab list in [`UI.buildShell`](../../src/avatar-copier.lua#L3817-L3885) and [`UI.layout`](../../src/avatar-copier.lua#L3923-L4028), and [`UI.selectTab`](../../src/avatar-copier.lua#L4242-L4252) if it renders on open |
-| Catalog item types and filters | [`Catalog.Types`](../../src/avatar-copier.lua#L2174-L2214), [`Catalog.Filters`](../../src/avatar-copier.lua#L2221), [`Catalog.Categories`](../../src/avatar-copier.lua#L2222-L2235), [`Catalog.Subs`](../../src/avatar-copier.lua#L2236-L2239) |
-| What a saved skin records | [`Visual.schemas`](../../src/avatar-copier.lua#L1161-L1171) and [`Visual.effects`](../../src/avatar-copier.lua#L1173-L1191) (each class with its fields and value kinds), and the limits in [`Visual.validate`](../../src/avatar-copier.lua#L1317-L1352) |
-| How an avatar is applied | [`App.applySnapshot`](../../src/avatar-copier.lua#L1994-L2141) and [`Appearance.apply`](../../src/avatar-copier.lua#L826-L889) |
-| Status messages | [`App.report`](../../src/avatar-copier.lua#L1774)`(message, kind)` with `info`, `success`, `warning`, `error` or `loading` |
-| Toasts | [`App.toast`](../../src/avatar-copier.lua#L1776)`(spec)` (respects **Show notifications**), see below |
+| A startup option or hotkey | [`Config`](../../src/avatar-copier.lua#L8-L26) at the top ([Configuration](configuration.md)) |
+| A setting | Its default in [`Store.Settings`](../../src/avatar-copier.lua#L1244-L1246), its switch in [`UI.buildSettings`](../../src/avatar-copier.lua#L4762-L4807) ([`UI.toggle`](../../src/avatar-copier.lua#L4705-L4718)), and [Settings](../tabs/settings.md) |
+| A setting range | [`Store.SettingRanges`](../../src/avatar-copier.lua#L1248) or [`Store.AutoRanges`](../../src/avatar-copier.lua#L1257), and the stepper values in [`UI.buildSettings`](../../src/avatar-copier.lua#L4762-L4807) / [`UI.buildAuto`](../../src/avatar-copier.lua#L4885-L4959) |
+| A tab | A `UI.build<Name>` function, the tab list in [`UI.buildShell`](../../src/avatar-copier.lua#L3476-L3544) and [`UI.layout`](../../src/avatar-copier.lua#L3582-L3687), and [`UI.selectTab`](../../src/avatar-copier.lua#L3901-L3911) if it renders on open |
+| Catalog item types and filters | [`Catalog.Types`](../../src/avatar-copier.lua#L1834-L1874), [`Catalog.Filters`](../../src/avatar-copier.lua#L1881), [`Catalog.Categories`](../../src/avatar-copier.lua#L1882-L1895), [`Catalog.Subs`](../../src/avatar-copier.lua#L1896-L1899) |
+| What a saved skin records | [`Visual.schemas`](../../src/avatar-copier.lua#L821-L831) and [`Visual.effects`](../../src/avatar-copier.lua#L833-L851) (each class with its fields and value kinds), and the limits in [`Visual.validate`](../../src/avatar-copier.lua#L977-L1012) |
+| How an avatar is applied | [`App.applySnapshot`](../../src/avatar-copier.lua#L1654-L1801) and [`Appearance.apply`](../../src/avatar-copier.lua#L508-L571) |
+| Status messages | [`App.report`](../../src/avatar-copier.lua#L1434)`(message, kind)` with `info`, `success`, `warning`, `error` or `loading` |
+| Toasts | [`App.toast`](../../src/avatar-copier.lua#L1436)`(spec)` (respects **Show notifications**), see below |
 | The skin sync server | `Config.SyncUrl`; the protocol is in [Data formats](data-formats.md#skin-sync-protocol) |
-| The icons or the logo | [`UI.IconData`](../../src/avatar-copier.lua#L3192-L3415) / [`UI.LogoData`](../../src/avatar-copier.lua#L3418-L3561) (base64 PNG) and [`UI.IconBytes`](../../src/avatar-copier.lua#L3191) / [`UI.LogoBytes`](../../src/avatar-copier.lua#L3417) (the decoded size, which is checked). The icon sheet is a grid of 64 px cells, 8 per row, in the order of [`UI.IconNames`](../../src/avatar-copier.lua#L3180-L3181) |
+| The icons or the logo | [`UI.IconData`](../../src/avatar-copier.lua#L2851-L3074) / [`UI.LogoData`](../../src/avatar-copier.lua#L3077-L3220) (base64 PNG) and [`UI.IconBytes`](../../src/avatar-copier.lua#L2850) / [`UI.LogoBytes`](../../src/avatar-copier.lua#L3076) (the decoded size, which is checked). The icon sheet is a grid of 64 px cells, 8 per row, in the order of [`UI.IconNames`](../../src/avatar-copier.lua#L2839-L2840) |
 
-When a new setting or saved field is added, give it a default so older files still load, and keep the type checks in [`Store.load`](../../src/avatar-copier.lua#L1690-L1750). `Store.load` opens any file with a `Version` above 4 read-only, so only raise the version for a change older builds can't read, and add the migration in the same change.
+When a new setting or saved field is added, give it a default so older files still load, and keep the type checks in [`Store.load`](../../src/avatar-copier.lua#L1350-L1410). `Store.load` opens any file with a `Version` above 4 read-only, so only raise the version for a change older builds can't read, and add the migration in the same change.
 
 ## Parts that need care
 
@@ -102,17 +102,18 @@ When a new setting or saved field is added, give it a default so older files sti
 
 ## Legacy code
 
-These functions are defined but nothing calls them in this version. They are left as they were in the production script:
+Version 25.0.1 of this repository removed the code nothing called anymore: an older apply path that replaced body parts (`Appearance.capture`, `Appearance.restore`), camera, dummy and tool-protection helpers, the name tag restore chain, and the `Config` keys `DoorsCameraFix`, `SpoofGameEvents` and `RestoreYourTagAfterRespawn`. A syntax-tree comparison confirmed that every statement left in the script is unchanged.
 
-- [`Appearance.capture`](../../src/avatar-copier.lua#L414-L519), [`Appearance.restore`](../../src/avatar-copier.lua#L540-L602) and [`Appearance.preserveBeltSurfaceGap`](../../src/avatar-copier.lua#L522-L539), from an older apply path that replaced body parts;
-- `F.spoofGameEvents`, `F.spoofHD`, `F.fixCam`, `F.lockCamera`, `F.suspendCamScripts`, `F.getCamScripts`, `F.copyNativeAnimations`, `F.installClonedAnimate`, `F.ensDummy`, `F.mkDummy`, `F.sanitizeDescription`, `F.rDsp`, `F.isI`, `F.isB`, `F.isGameAccessory`, `F.getDummyAccessoryNames`, `F.protectSafeTool`, `F.unprotectSafeTool`, `F.protectInstance`, `F.clearProtectedTools`, `F.safeExecute`, `F.aAc`, `F.SetupMobileUI` and `F.showToolsGUI`;
-- the tag restore chain `F.ensureTagDurability`, `F.restoreOriginalTags`, `F.applyPreservedTags`, `F.bindTagToLeaderstats`, `F.formatNumberWithCommas` and `F.updateNameSpoofInRealTime`.
+A few old pieces stay, because live code still reaches them:
 
-`F.snapshotOwnAccessories` and `F.ensureOriginalTagsScanned` still run, but their results are only read by the code above. `Config.DoorsCameraFix`, `Config.SpoofGameEvents` and `Config.RestoreYourTagAfterRespawn` have no effect.
+- [`F.ensureOriginalTagsScanned`](../../src/avatar-copier.lua#L687) and [`F.scanYourOriginalTags`](../../src/avatar-copier.lua#L686) run on every apply. They keep copies of the name tags on your head, which nothing reads now, but they also set `Archivable` on those tags. Removing them would change what happens to the game's objects, so they were kept.
+- The [first `_G.Copier_ToolsGiverToggle`](../../src/avatar-copier.lua#L202 "_G.Copier_ToolsGiverToggle = function() if not IsAlive()") and [`F.showToolsGUI`](../../src/avatar-copier.lua#L204). A second definition further down replaces the toggle, but the <kbd>L</kbd> key can reach the first one while the script is still loading.
+- The camera lock loop, [`F.unlockCamera`](../../src/avatar-copier.lua#L661) and [`F.resumeCamScripts`](../../src/avatar-copier.lua#L660). Nothing locks the camera or suspends camera scripts anymore, so they do nothing, but `App.applySnapshot` and `cleanup` call them.
+- `S_SafeTools`, which `App.applySnapshot` clears but nothing fills, and the `_G` leftovers listed in [Architecture](architecture.md#globals-and-names).
 
 ## Toast notifier
 
-[`Toast`](../../src/avatar-copier.lua#L2979) only needs TweenService, TextService and the instances it creates, so the block can be reused elsewhere ([`Toast.new`](../../src/avatar-copier.lua#L2992-L3018), [`Toast:Notify`](../../src/avatar-copier.lua#L3054-L3157)).
+[`Toast`](../../src/avatar-copier.lua#L2638) only needs TweenService, TextService and the instances it creates, so the block can be reused elsewhere ([`Toast.new`](../../src/avatar-copier.lua#L2651-L2677), [`Toast:Notify`](../../src/avatar-copier.lua#L2713-L2816)).
 
 ```lua
 local notifier = Toast.new({
@@ -178,7 +179,7 @@ A block that starts with ` ```lua excerpt ` must be copied from the script: each
 
 ### Pictures
 
-`docs/assets/icons/*.png` are the tab icons from the script's own icon sheet ([Lucide](https://lucide.dev), ISC), drawn on a purple badge so they show on light and dark pages. `docs/assets/window.svg` is a map of the default window, drawn from the sizes in [`UI.buildShell`](../../src/avatar-copier.lua#L3817-L3885), [`UI.layout`](../../src/avatar-copier.lua#L3923-L4028) and [`UI.buildAvatar`](../../src/avatar-copier.lua#L4254-L4312).
+`docs/assets/icons/*.png` are the tab icons from the script's own icon sheet ([Lucide](https://lucide.dev), ISC), drawn on a purple badge so they show on light and dark pages. `docs/assets/window.svg` is a map of the default window, drawn from the sizes in [`UI.buildShell`](../../src/avatar-copier.lua#L3476-L3544), [`UI.layout`](../../src/avatar-copier.lua#L3582-L3687) and [`UI.buildAvatar`](../../src/avatar-copier.lua#L3913-L3971).
 
 ## Style
 

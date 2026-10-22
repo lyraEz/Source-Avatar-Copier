@@ -7,6 +7,7 @@ First public release of the source. The script is the v25.0.1 build, with these 
 - Released under the GNU General Public License, version 3 or later.
 - The skin sync server is now `Config.SyncUrl`. It is empty in this repository, so skin sync is off until a server is set.
 - The last Portuguese messages are now in English.
+- Removed 33 functions, 3 variables and the `Config` keys `DoorsCameraFix`, `SpoofGameEvents` and `RestoreYourTagAfterRespawn` that nothing used anymore (an older apply path, camera, dummy and tool-protection helpers, and a name tag restore chain). Nothing the script does changes.
 - `Store.write` no longer returns an error message together with a successful save. Callers only read the message after a failure, so nothing visible changes.
 - Comments were trimmed to the ones that explain fragile or non-obvious code. The longer explanations moved to `docs/`, with one page per tab of the window.
 
