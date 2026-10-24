@@ -7,6 +7,7 @@
 <p align="center">
   Put any Roblox player's avatar on your character, save skins, try catalog items and cycle through avatars while you play.
   <br>
+  <a href="https://source.lyraez.lol"><b>Website</b></a> ·
   <a href="docs/getting-started.md"><b>Getting started</b></a> ·
   <a href="docs/README.md"><b>Documentation</b></a> ·
   <a href="docs/troubleshooting.md"><b>Troubleshooting</b></a>

@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Avatar Copier: wear any Roblox avatar</title>
+<meta name="description" content="Free, open-source Roblox script. Search a username, preview the avatar in 3D and put it on your character in one tap. Save skins, try catalog items and switch avatars while you play.">
+<meta name="theme-color" content="#13121d">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://source.lyraez.lol/">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Avatar Copier">
+<meta property="og:title" content="Avatar Copier: wear any Roblox avatar">
+<meta property="og:description" content="Free and open source. Search a username, preview in 3D, apply in one tap.">
+<meta property="og:url" content="https://source.lyraez.lol/">
+<meta property="og:image" content="https://source.lyraez.lol/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="styles.css">
+<script src="boot.js"></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+
+<div class="backdrop" aria-hidden="true">
+  <span class="blob blob-a" data-parallax="0.12"></span>
+  <span class="blob blob-b" data-parallax="-0.08"></span>
+  <span class="blob blob-c" data-parallax="0.05"></span>
+  <span class="dots"></span>
+</div>
+
+<header class="topbar" id="top">
+  <div class="topbar-inner">
+    <a class="brand" href="#top" aria-label="Avatar Copier, back to top">
+      <img src="assets/logo.png" alt="" width="36" height="36">
+      <span>Avatar Copier</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="#features" data-i18n="nav.features">Features</a>
+      <a href="#how" data-i18n="nav.how">How it works</a>
+      <a href="#get" data-i18n="nav.get">Get the script</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
+      <div class="nav-extra">
+        <a class="nav-icon" href="https://github.com/lyraEz/Source-Avatar-Copier" rel="noopener" target="_blank"><i class="glyph g-github" aria-hidden="true"></i><span>GitHub</span></a>
+        <a class="nav-icon" href="https://discord.gg/8bxXcn2Vfb" rel="noopener" target="_blank"><i class="glyph g-discord" aria-hidden="true"></i><span>Discord</span></a>
+      </div>
+    </nav>
+    <div class="topbar-actions">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="pt" aria-pressed="false">PT</button>
+      </div>
+      <button class="menu-button" type="button" aria-controls="nav" aria-expanded="false" data-i18n-attr="aria-label:menu.open" aria-label="Open menu">
+        <i class="glyph g-menu" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="pill reveal"><span class="dot" aria-hidden="true"></span><span data-i18n="hero.pill">Free · Open source · No key system</span></p>
+      <h1 id="hero-title" class="reveal" data-i18n="hero.title">Wear <span class="shine">any Roblox avatar</span> in one tap</h1>
+      <p class="lead reveal" data-i18n="hero.lead">Type a username, see the avatar in 3D and put it on your character. Save your favourite looks, try items from the catalog and switch avatars while you play.</p>
+      <div class="actions reveal">
+        <a class="button primary" href="#get"><span data-i18n="hero.cta">Get the script</span><i class="glyph g-arrow-right" aria-hidden="true"></i></a>
+        <a class="button ghost" href="#how" data-i18n="hero.secondary">See how it works</a>
+      </div>
+      <p class="hint reveal"><i class="glyph g-info" aria-hidden="true"></i><span data-i18n="hero.note">Runs on your device. Only you see the new avatar.</span></p>
+    </div>
+
+    <div class="stage reveal" aria-hidden="true">
+      <div class="stage-glow" data-depth="-0.6"></div>
+      <div class="stage-window" data-depth="0.25">
+        <img src="assets/window.svg" alt="" width="860" height="640" decoding="async">
+      </div>
+      <div class="float float-toast" data-depth="1.1">
+        <span class="float-dot ok"></span>
+        <span><strong data-i18n="float.applied">Avatar applied</strong><small data-i18n="float.applied.sub">Tap Undo to go back</small></span>
+      </div>
+      <div class="float float-skin" data-depth="0.8">
+        <i class="glyph g-shirt"></i>
+        <span><strong data-i18n="float.saved">Skin saved</strong><small>LYRA3:{"Version":2…</small></span>
+      </div>
+      <div class="float float-orb" data-depth="1.4">AC</div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <ul class="facts reveal">
+      <li><strong>8</strong><span data-i18n="facts.tabs">tabs in one window</span></li>
+      <li><strong>100</strong><span data-i18n="facts.skins">saved skins</span></li>
+      <li><strong>50</strong><span data-i18n="facts.cycle">avatars in a cycle</span></li>
+      <li><strong>R6 + R15</strong><span data-i18n="facts.rigs">PC and phone</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="features" aria-labelledby="features-title">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="eyebrow" data-i18n="features.eyebrow">Everything in one window</p>
+      <h2 id="features-title" data-i18n="features.title">Eight tabs, zero confusion</h2>
+      <p data-i18n="features.lead">Each tab does one thing. Tap a card to see how to use it.</p>
+    </header>
+
+    <div class="cards">
+      <article class="card reveal">
+        <button class="card-toggle" type="button" aria-expanded="false" aria-controls="f1">
+          <img src="assets/icons/copy-avatar.png" alt="" width="48" height="48">
+          <span class="card-text"><strong data-i18n="f1.title">Copy Avatar</strong><span data-i18n="f1.short">Search anyone and wear their avatar.</span></span>
+          <i class="glyph g-chevron-down chevron" aria-hidden="true"></i>
+        </button>
+        <div class="card-more" id="f1"><div>
+          <ol>
+            <li data-i18n="f1.a">Type a username, <code>@name</code> or user ID.</li>
+            <li data-i18n="f1.b">Drag the 3D preview to look around.</li>
+            <li data-i18n="f1.c">Tap <strong>Apply avatar</strong>. <strong>Undo</strong> and <strong>Restore</strong> bring you back.</li>
+          </ol>
+        </div></div>
+      </article>
+
+      <article class="card reveal">
+        <button class="card-toggle" type="button" aria-expanded="false" aria-controls="f2">
+          <img src="assets/icons/server.png" alt="" width="48" height="48">
+          <span class="card-text"><strong data-i18n="f2.title">Server</strong><span data-i18n="f2.short">Everyone in your server, one tap away.</span></span>
+          <i class="glyph g-chevron-down chevron" aria-hidden="true"></i>
+        </button>
+        <div class="card-more" id="f2"><div>
+          <ol>
+            <li data-i18n="f2.a">Filter the list by name or ID.</li>
+            <li data-i18n="f2.b"><strong>Wear</strong> puts their avatar on you right away.</li>
+            <li data-i18n="f2.c"><strong>Preview</strong> shows it in 3D first. The star saves them to Favorites.</li>
+          </ol>
+        </div></div>
+      </article>
+
+      <article class="card reveal">
+        <button class="card-toggle" type="button" aria-expanded="false" aria-controls="f3">
+          <img src="assets/icons/favorites-recent.png" alt="" width="48" height="48">
+          <span class="card-text"><strong data-i18n="f3.title">Favorites &amp; Recent</strong><span data-i18n="f3.short">Your starred and latest profiles.</span></span>
+          <i class="glyph g-chevron-down chevron" aria-hidden="true"></i>
+        </button>
+        <div class="card-more" id="f3"><div>
+          <ol>
+            <li data-i18n="f3.a">Up to 200 favorites and your last 30 searches.</li>
+            <li data-i18n="f3.b">Both lists are saved on your device.</li>
+            <li data-i18n="f3.c">Wearing a favorite always loads the avatar they have today.</li>
+          </ol>
+        </div></div>
+      </article>
+
+      <article class="card reveal">
+        <button class="card-toggle" type="button" aria-expanded="false" aria-controls="f4">
+          <img src="assets/icons/saved-skins.png" alt="" width="48" height="48">
+          <span class="card-text"><strong data-i18n="f4.title">Saved Skins</strong><span data-i18n="f4.short">Keep a look forever and share it.</span></span>
+          <i class="glyph g-chevron-down chevron" aria-hidden="true"></i>
+        </button>
+        <div class="card-more" id="f4"><div>
+          <ol>
+            <li data-i18n="f4.a">Dress up, type a name and tap <strong>Save</strong>.</li>
+            <li data-i18n="f4.b">Wear it again in any game, exactly as it was.</li>
+            <li data-i18n="f4.c"><strong>Share</strong> turns it into a code a friend can import.</li>
+          </ol>
+        </div></div>
+      </article>
+
+      <article class="card reveal">
+        <button class="card-toggle" type="button" aria-expanded="false" aria-controls="f5">
+          <img src="assets/icons/roblox-shop.png" alt="" width="48" height="48">
+          <span class="card-text"><strong data-i18n="f5.title">Roblox Shop</strong><span data-i18n="f5.short">Try catalog items on your avatar.</span></span>
+          <i class="glyph g-chevron-down chevron" aria-hidden="true"></i>
+        </button>
+        <div class="card-more" id="f5"><div>
+          <ol>
+            <li data-i18n="f5.a">Search by name, item ID or catalog link.</li>
+            <li data-i18n="f5.b">Filter hair, heads, clothes, emotes and more.</li>
+            <li data-i18n="f5.c"><strong>Add</strong> or <strong>Remove</strong> items. Nothing is bought.</li>
+          </ol>
+        </div></div>
+      </article>
+
+      <article class="card reveal">
+        <button class="card-toggle" type="button" aria-expanded="false" aria-controls="f6">
+          <img src="assets/icons/auto-cycle.png" alt="" width="48" height="48">
+          <span class="card-text"><strong data-i18n="f6.title">Auto &amp; Cycle</strong><span data-i18n="f6.short">A new avatar every death or timer.</span></span>
+          <i class="glyph g-chevron-down chevron" aria-hidden="true"></i>
+        </button>
+        <div class="card-more" id="f6"><div>
+          <ol>
+            <li data-i18n="f6.a">Put an avatar on as soon as the script starts.</li>
+            <li data-i18n="f6.b">Add up to 50 avatars to the cycle list.</li>
+            <li data-i18n="f6.c">Switch on death, on respawn or every few minutes.</li>
+          </ol>
+        </div></div>
+      </article>
+
+      <article class="card reveal">
+        <button class="card-toggle" type="button" aria-expanded="false" aria-controls="f7">
+          <img src="assets/icons/settings.png" alt="" width="48" height="48">
+          <span class="card-text"><strong data-i18n="f7.title">Settings</strong><span data-i18n="f7.short">Good defaults, change only what you want.</span></span>
+          <i class="glyph g-chevron-down chevron" aria-hidden="true"></i>
+        </button>
+        <div class="card-more" id="f7"><div>
+          <ol>
+            <li data-i18n="f7.a">Make the window bigger or smaller.</li>
+            <li data-i18n="f7.b">Keep your avatar after respawns and new rounds.</li>
+            <li data-i18n="f7.c">Choose how to reopen the window when it is hidden.</li>
+          </ol>
+        </div></div>
+      </article>
+
+      <article class="card reveal">
+        <button class="card-toggle" type="button" aria-expanded="false" aria-controls="f8">
+          <img src="assets/icons/creator.png" alt="" width="48" height="48">
+          <span class="card-text"><strong data-i18n="f8.title">Creator</strong><span data-i18n="f8.short">Who made it and where to find help.</span></span>
+          <i class="glyph g-chevron-down chevron" aria-hidden="true"></i>
+        </button>
+        <div class="card-more" id="f8"><div>
+          <ol>
+            <li data-i18n="f8.a">Join the Discord for updates and help.</li>
+            <li data-i18n="f8.b">See the GitHub profile of lyraEz.</li>
+            <li data-i18n="f8.c">Tap a link to copy it.</li>
+          </ol>
+        </div></div>
+      </article>
+    </div>
+
+    <ul class="chips reveal" aria-label="Also included">
+      <li><i class="glyph g-refresh-cw" aria-hidden="true"></i><span data-i18n="chip.respawn">Keeps your avatar after respawn</span></li>
+      <li><i class="glyph g-repeat" aria-hidden="true"></i><span data-i18n="chip.rounds">Puts back items the game removes</span></li>
+      <li><i class="glyph g-eye-off" aria-hidden="true"></i><span data-i18n="chip.visual">Visual-only mode for tricky games</span></li>
+      <li><i class="glyph g-gamepad-2" aria-hidden="true"></i><span data-i18n="chip.hotkeys">Free camera and hotkeys</span></li>
+      <li><i class="glyph g-undo-2" aria-hidden="true"></i><span data-i18n="chip.undo">Undo anything</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="how" aria-labelledby="how-title">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="eyebrow" data-i18n="how.eyebrow">How it works</p>
+      <h2 id="how-title" data-i18n="how.title">Three steps. That's it.</h2>
+    </header>
+    <ol class="steps">
+      <li class="step reveal">
+        <span class="step-number">1</span>
+        <h3 data-i18n="how.1.title">Copy the script</h3>
+        <p data-i18n="how.1.text">Tap <strong>Copy</strong> in the box below. It is one line.</p>
+      </li>
+      <li class="step reveal">
+        <span class="step-number">2</span>
+        <h3 data-i18n="how.2.title">Run it in your executor</h3>
+        <p data-i18n="how.2.text">Paste it, press run. The <strong>Avatar Studio</strong> window opens.</p>
+      </li>
+      <li class="step reveal">
+        <span class="step-number">3</span>
+        <h3 data-i18n="how.3.title">Type a name, tap Apply</h3>
+        <p data-i18n="how.3.text">Search anyone in <strong>Copy Avatar</strong> and tap <strong>Apply avatar</strong>.</p>
+      </li>
+    </ol>
+    <p class="tip reveal"><i class="glyph g-circle-check" aria-hidden="true"></i><span data-i18n="how.tip">Changed your mind? <strong>Undo</strong> goes back one step and <strong>Restore</strong> brings back your own avatar.</span></p>
+  </div>
+</section>
+
+<section class="section" id="get" aria-labelledby="get-title">
+  <div class="wrap narrow">
+    <div class="get reveal">
+      <header class="section-head">
+        <p class="eyebrow" data-i18n="get.eyebrow">Get the script</p>
+        <h2 id="get-title" data-i18n="get.title">Copy, paste, play</h2>
+      </header>
+      <div class="code">
+        <div class="code-bar">
+          <span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="code-name">avatar-copier.lua</span>
+        </div>
+        <pre id="script-line" tabindex="0"><code>loadstring(game:HttpGet("https://raw.githubusercontent.com/lyraEz/Source-Avatar-Copier/main/src/avatar-copier.lua"))()</code></pre>
+        <button class="button primary copy" type="button" data-copy="#script-line">
+          <i class="glyph g-copy" aria-hidden="true"></i><span data-i18n="get.copy">Copy</span>
+        </button>
+      </div>
+      <p class="sr-only" aria-live="polite" id="copy-status"></p>
+      <div class="get-links">
+        <a class="button ghost" href="https://github.com/lyraEz/Source-Avatar-Copier" rel="noopener" target="_blank"><i class="glyph g-github" aria-hidden="true"></i><span data-i18n="get.source">View the source</span></a>
+        <a class="button ghost" href="https://github.com/lyraEz/Source-Avatar-Copier/blob/main/docs/getting-started.md" rel="noopener" target="_blank"><i class="glyph g-info" aria-hidden="true"></i><span data-i18n="get.guide">Step-by-step guide</span></a>
+      </div>
+      <p class="fine" data-i18n="get.fine">You need a Roblox executor that runs client scripts. Third-party executors are against the Roblox Terms of Use, so use them at your own risk.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="open" aria-labelledby="open-title">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="eyebrow" data-i18n="open.eyebrow">Free and open</p>
+      <h2 id="open-title" data-i18n="open.title">Nothing hidden</h2>
+    </header>
+    <div class="trust">
+      <article class="trust-card reveal">
+        <i class="glyph g-star" aria-hidden="true"></i>
+        <h3 data-i18n="open.1.title">Free, always</h3>
+        <p data-i18n="open.1.text">No key system, no link shorteners, no payment.</p>
+      </article>
+      <article class="trust-card reveal">
+        <i class="glyph g-github" aria-hidden="true"></i>
+        <h3 data-i18n="open.2.title">Open source</h3>
+        <p data-i18n="open.2.text">Every line is public under the GPL-3.0 license. Read it, learn from it, improve it.</p>
+      </article>
+      <article class="trust-card reveal">
+        <i class="glyph g-save" aria-hidden="true"></i>
+        <h3 data-i18n="open.3.title">Your data stays with you</h3>
+        <p data-i18n="open.3.text">No analytics. Favorites, skins and settings are saved only on your device.</p>
+      </article>
+      <article class="trust-card reveal">
+        <i class="glyph g-circle-check" aria-hidden="true"></i>
+        <h3 data-i18n="open.4.title">Checks what it reads</h3>
+        <p data-i18n="open.4.text">Shared codes are checked before anything is built from them.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq" aria-labelledby="faq-title">
+  <div class="wrap narrow">
+    <header class="section-head reveal">
+      <p class="eyebrow" data-i18n="faq.eyebrow">Questions</p>
+      <h2 id="faq-title" data-i18n="faq.title">Good to know</h2>
+    </header>
+    <div class="faq">
+      <div class="faq-item reveal">
+        <h3><button type="button" aria-expanded="false" aria-controls="q1"><span data-i18n="q1">Do other players see my new avatar?</span><i class="glyph g-chevron-down chevron" aria-hidden="true"></i></button></h3>
+        <div class="faq-answer" id="q1"><div><p data-i18n="a1">No. The change happens on your device, so other players keep seeing your normal avatar. The exception is animations: Roblox shows the animations your character plays to everyone.</p></div></div>
+      </div>
+      <div class="faq-item reveal">
+        <h3><button type="button" aria-expanded="false" aria-controls="q2"><span data-i18n="q2">How do I get my own avatar back?</span><i class="glyph g-chevron-down chevron" aria-hidden="true"></i></button></h3>
+        <div class="faq-answer" id="q2"><div><p data-i18n="a2">Tap <strong>Restore</strong> below the preview. <strong>Undo</strong> goes back one step, and the timeline pictures go back to any look of the session.</p></div></div>
+      </div>
+      <div class="faq-item reveal">
+        <h3><button type="button" aria-expanded="false" aria-controls="q3"><span data-i18n="q3">I closed the window. How do I open it again?</span><i class="glyph g-chevron-down chevron" aria-hidden="true"></i></button></h3>
+        <div class="faq-answer" id="q3"><div><p data-i18n="a3">Tap the floating <strong>AC</strong> button, press <kbd>Right Ctrl</kbd>, type <code>/e copier</code> in chat, or open and close the Roblox menu 3 times in a row.</p></div></div>
+      </div>
+      <div class="faq-item reveal">
+        <h3><button type="button" aria-expanded="false" aria-controls="q4"><span data-i18n="q4">The game broke after I applied an avatar. What now?</span><i class="glyph g-chevron-down chevron" aria-hidden="true"></i></button></h3>
+        <div class="faq-answer" id="q4"><div><p data-i18n="a4">Respawn, then open <strong>Settings</strong>, tap <strong>Show advanced options</strong> and turn on <strong>Visual-only avatar</strong>. It draws the avatar over your character without changing it.</p></div></div>
+      </div>
+      <div class="faq-item reveal">
+        <h3><button type="button" aria-expanded="false" aria-controls="q5"><span data-i18n="q5">Does it work on my phone?</span><i class="glyph g-chevron-down chevron" aria-hidden="true"></i></button></h3>
+        <div class="faq-answer" id="q5"><div><p data-i18n="a5">Yes. The window adapts to small screens and everything in it works by touch. Only the keyboard shortcuts need a keyboard.</p></div></div>
+      </div>
+      <div class="faq-item reveal">
+        <h3><button type="button" aria-expanded="false" aria-controls="q6"><span data-i18n="q6">Is it really free?</span><i class="glyph g-chevron-down chevron" aria-hidden="true"></i></button></h3>
+        <div class="faq-answer" id="q6"><div><p data-i18n="a6">Yes, and it always has been. There is no key system and nothing to buy, and the full source code is public.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="" width="40" height="40" loading="lazy">
+      <div>
+        <strong>Avatar Copier</strong>
+        <span data-i18n="footer.by">Made by lyraEz</span>
+      </div>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="https://github.com/lyraEz/Source-Avatar-Copier" rel="noopener" target="_blank">GitHub</a>
+      <a href="https://github.com/lyraEz/Source-Avatar-Copier/blob/main/docs/README.md" rel="noopener" target="_blank" data-i18n="footer.docs">Docs</a>
+      <a href="https://discord.gg/8bxXcn2Vfb" rel="noopener" target="_blank">Discord</a>
+      <a href="https://github.com/lyraEz/Source-Avatar-Copier/blob/main/LICENSE" rel="noopener" target="_blank" data-i18n="footer.license">License</a>
+    </nav>
+    <p class="footer-note" data-i18n="footer.note">Not affiliated with or endorsed by Roblox Corporation.</p>
+  </div>
+</footer>
+
+<a class="to-top" href="#top" data-i18n-attr="aria-label:top" aria-label="Back to top">AC</a>
+</body>
+</html>

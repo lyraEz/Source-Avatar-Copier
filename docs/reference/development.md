@@ -20,6 +20,7 @@ docs/tabs/                 one page per tab of the window
 docs/features/             the window, hotkeys, skin sync, visual-only mode
 docs/reference/            architecture, lifecycle, compatibility, formats, configuration, this page
 docs/assets/               the icons, the logo and the window map used by the docs
+site/                      the website at source.lyraez.lol (plain HTML, CSS and JavaScript)
 ```
 
 ## Checking a change
@@ -180,6 +181,15 @@ A block that starts with ` ```lua excerpt ` must be copied from the script: each
 ### Pictures
 
 `docs/assets/icons/*.png` are the tab icons from the script's own icon sheet ([Lucide](https://lucide.dev), ISC), drawn on a purple badge so they show on light and dark pages. `docs/assets/window.svg` is a map of the default window, drawn from the sizes in [`UI.buildShell`](../../src/avatar-copier.lua#L3476-L3544), [`UI.layout`](../../src/avatar-copier.lua#L3582-L3687) and [`UI.buildAvatar`](../../src/avatar-copier.lua#L3913-L3971).
+
+## The website
+
+`site/` is the page at [source.lyraez.lol](https://source.lyraez.lol). It has no build step: `index.html`, `styles.css`, `app.js` (language switch, menu, cards, copy button, fade-in and parallax) and `boot.js` (runs first, so a Portuguese visitor doesn't see English for a moment). English text lives in the HTML; the Portuguese text is the `PT` table in `app.js`, keyed by each element's `data-i18n`.
+
+- Colours are the script's own (`UI.C`). The icons in `site/assets/icons` and `site/assets/glyphs` are cut from the script's icon sheet, and `site/assets/window.svg` is the docs' window map without the numbered callouts.
+- `_headers` sets the security headers, including a Content-Security-Policy that allows only the site's own files. Don't add inline scripts or `style="…"` attributes; they would be blocked.
+- To try it locally, serve the folder (for example `npx serve site`) and check it at phone and desktop widths. Nothing should ever be wider than the screen, with every card and question open and the menu open.
+- Motion respects the system's reduced-motion setting, and the page is fully readable without JavaScript.
 
 ## Style
 
